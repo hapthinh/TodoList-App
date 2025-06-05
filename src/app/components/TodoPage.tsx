@@ -70,14 +70,6 @@ export default function TodoPage() {
       pageSize,
     ],
     queryFn: async () => {
-      console.log("QueryFn key: ", {
-        kw: inputSearch,
-        status: selectStatus,
-        order: sortOrder,
-        sortField: sortField,
-        currentPage: currentPage,
-        pageSize: pageSize,
-      });
       const result = await getTodos({
         kw: inputSearch,
         status: selectStatus,
@@ -301,7 +293,7 @@ export default function TodoPage() {
                         ? sortOrder === "asc"
                           ? "desc"
                           : "asc"
-                        : "asc"; // set sortField = todo and sortOrder asc || desc
+                        : "asc"; // if sortField = todo && sortOrder = asc => desc else asc
                     const params = new URLSearchParams(searchParams.toString());
                     params.set("order", newOrder);
                     params.set("sortField", "todo");

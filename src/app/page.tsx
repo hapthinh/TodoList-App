@@ -7,15 +7,7 @@ import { Suspense } from "react";
 import Providers from "./provider/provider";
 import TodoPage from "./components/TodoPage";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-      gcTime: 30 * 60 * 1000,
-      refetchOnWindowFocus: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 export default function App() {
   return (
