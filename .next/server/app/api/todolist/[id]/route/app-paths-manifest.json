@@ -1,0 +1,3 @@
+{
+  "/api/todolist/[id]/route": "app/api/todolist/[id]/route.js"
+}

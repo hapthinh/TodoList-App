@@ -6,7 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -54,11 +54,12 @@ export default function TodoPage() {
   const handleSearch = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("kw", value);
+    params.set("page", "1");
     router.push(`?${params.toString()}`);
   };
 
   // Get all Todo or get Todo by keyword or get Todo by status
-  const { data, isLoading, isFetching } = useQuery<TodoResponse, Error>({
+  const { data, isLoading } = useQuery<TodoResponse, Error>({
     queryKey: [
       "todos",
       inputSearch,
@@ -69,7 +70,7 @@ export default function TodoPage() {
       pageSize,
     ],
     queryFn: async () => {
-      console.log("🔄 QueryFn called with:", {
+      console.log("QueryFn key: ", {
         kw: inputSearch,
         status: selectStatus,
         order: sortOrder,
@@ -85,65 +86,66 @@ export default function TodoPage() {
         currentPage: currentPage,
         pageSize: pageSize,
       });
-      console.log("✅ QueryFn result:", result);
+      console.log("QueryFn result:", result);
       return result;
     },
     staleTime: 30 * 1000,
     gcTime: 5 * 1000 * 60,
     placeholderData: keepPreviousData,
-    enabled: true,
   });
-
-  console.log("🔑 QueryKey:", [
-    "todos",
-    inputSearch,
-    selectStatus,
-    sortOrder,
-    sortField,
-    currentPage,
-    pageSize,
-  ]);
-
-  useEffect(() => {
-    if (data) {
-      console.log("➡️ Current page:", currentPage, "Data:", data);
-      // kiểm tra data.page === currentPage trước khi render chẳng hạn
-    }
-  }, [data]);
-
-  /*
-  useEffect(() => {
-    if (data?.hasMore) {
-      queryClient.prefetchQuery({
-        queryKey: ["todos", currentPage + 1],
-        queryFn: () => getTodos(Number(currentPage) + 1),
-      });
-    }
-  });
-  */
 
   // Add todo
   const postTodoMutation = useMutation({
     mutationFn: postTodo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "todos",
+          inputSearch,
+          selectStatus,
+          sortOrder,
+          sortField,
+          currentPage,
+          pageSize,
+        ],
+      });
     },
   });
 
-  // Delete Todo
+  // delete todo
   const deleteTodoMutation = useMutation({
     mutationFn: deteleTodo,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "todos",
+          inputSearch,
+          selectStatus,
+          sortOrder,
+          sortField,
+          currentPage,
+          pageSize,
+        ],
+      });
       setEditTodo("");
     },
   });
 
-  // Update Todo status or Todo Content
+  // update todo
   const updateTodoMutation = useMutation({
     mutationFn: updateTodoStatus,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["todos"] });
+      queryClient.invalidateQueries({
+        queryKey: [
+          "todos",
+          inputSearch,
+          selectStatus,
+          sortOrder,
+          sortField,
+          currentPage,
+          pageSize,
+        ],
+      });
     },
   });
 
@@ -184,7 +186,6 @@ export default function TodoPage() {
     );
   };
 
-  console.log("🔔 Render state:", { data, isLoading, isFetching });
   // Rendering
   return (
     <div className="text-2x1 text-white mr-50 ml-50 mt-10 ">
@@ -342,7 +343,7 @@ export default function TodoPage() {
           {/* Table content */}
           <tbody>
             {/* Loading */}
-            {isLoading || isFetching ? (
+            {isLoading ? (
               <tr>
                 <td colSpan={3} className="text-center">
                   Đang tải...

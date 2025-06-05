@@ -86,9 +86,3 @@ describe("TodoPage UI", () => {
       ).toBeInTheDocument();
   });
 });
-
-describe("TodoPage UI", () => {
-  it("render add input", () => {
-    
-  })
-})
