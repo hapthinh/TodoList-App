@@ -201,8 +201,7 @@ export default function TodoPage() {
             onClick={() => {
               if (input.trim()) {
                 postTodoMutation.mutate({
-                  id: Date.now(),
-                  todo: input,
+                  todo: input, 
                 });
                 setInput("");
               }

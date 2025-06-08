@@ -1,31 +1,35 @@
+import mysql from "mysql2/promise";
+
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
 
-import { Todo } from "app/data/type";
+import { GetDBSettings } from "shareCode/common";
 
-// path file json -> app/json/todolist.json
-const file = path.join(process.cwd() + "/src/app/json/todolist.json");
-
-// delete todo by id
+// Delete todo by id
 export async function DELETE(request: Request) {
   const url = new URL(request.url);
   const id = url.pathname.split("/").pop();
-  const raw = await fs.readFile(file, "utf-8");
-  const data = JSON.parse(raw);
+  console.log(id);
 
-  // check id
-  if (!id) return NextResponse.json({ success: false, error: "Missing id" });
-
-  // find all todo have id # request.id
-  data.todos = data.todos.filter((todo: any) => Number(todo.id) !== Number(id));
   try {
-    await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
+    const connectionsParams = GetDBSettings();
+    const connection = await mysql.createConnection(connectionsParams);
+
+    const query = `DELETE FROM todolist.todo WHERE id=?`;
+    const values = [id];
+
+    const result = await connection.execute(query, values);
+
+    await connection.end();
+
+    return NextResponse.json(result);
   } catch (err) {
-    console.error("Lỗi ghi file:", err);
-    return NextResponse.json({ success: false, error: "Lỗi ghi file" });
+    console.log("ERROR: ", (err as Error).message);
+    const response = {
+      error: (err as Error).message,
+      returnStatus: 500,
+    };
+    return NextResponse.json({ response });
   }
-  return NextResponse.json({ success: true });
 }
 
 // Update Todo status or content by id
@@ -35,36 +39,37 @@ export async function PATCH(request: Request) {
 
   const body = await request.json();
   const { todo, status } = body;
+  console.log(todo, status);
 
-  const raw = await fs.readFile(file, "utf-8");
-  const data = JSON.parse(raw);
+  try {
+    const connectionsParams = GetDBSettings();
+    const connection = await mysql.createConnection(connectionsParams);
 
-  // find todo have id === request.id => update status this todo
-  const idx = data.todos.findIndex((t: Todo) => String(t.id) === String(id));
+    const update: string[] = [];
 
-  // check id
-  if (idx === -1) {
-    return NextResponse.json({ success: false });
+    let query = `UPDATE todolist.todo `;
+    const values: any[] = [];
+
+    if (typeof status !== "undefined") {
+      update.push("status = ?"), values.push(status ? 1 : 0);
+    }
+    if (typeof todo !== "undefined") {
+      update.push("todo = ?");
+      values.push(todo);
+    }
+
+    query += `SET ${update.join(", ")} WHERE id=?`;
+    values.push(id);
+    const [result] = await connection.execute(query, values);
+    console.log(result);
+    await connection.end();
+    return NextResponse.json(result);
+  } catch (err) {
+    console.log("ERROR: ", (err as Error).message);
+    const response = {
+      error: (err as Error).message,
+      returnStatus: 500,
+    };
+    return NextResponse.json({ response });
   }
-  if (typeof todo !== "undefined") data.todos[idx].todo = todo;
-  if (typeof status !== "undefined") data.todos[idx].status = status;
-
-  await fs.writeFile(file, JSON.stringify(data, null, 2), "utf-8");
-
-  return NextResponse.json({ data: data.todos[idx], success: true });
-}
-
-// GET todo by id
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const id = url.pathname.split("/").pop();
-  const raw = await fs.readFile(file, "utf-8");
-  const data = JSON.parse(raw);
-
-  if (!id) return NextResponse.json({ success: false, error: "Missing id" });
-
-  const todo = data.todos.find((todo: any) => String(todo.id) === String(id));
-  if (!todo) return NextResponse.json({ success: false, error: "Not found" });
-
-  return NextResponse.json(todo);
 }

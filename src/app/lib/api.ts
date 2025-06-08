@@ -34,12 +34,11 @@ export async function getTodos({
 }
 
 // API POST TODO
-export async function postTodo({ id, todo }: { id: number; todo: string }) {
+export async function postTodo({ todo }: { todo: string }) {
   const res = await fetch(API, {
     method: "POST",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify({
-      id: id,
       todo: todo,
     }),
   });
