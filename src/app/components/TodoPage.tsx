@@ -17,8 +17,6 @@ import AddTodo from "./addTodo";
 import FilterTodo from "./filterTodo";
 import Statistic from "./statisticTodo";
 import Pagination from "./pagination";
-import { getUser } from "app/actions/userActions";
-import { users } from "app/db/schema";
 
 interface TodoResponse {
   todos: Todo[];
@@ -27,7 +25,7 @@ interface TodoResponse {
   limit: number;
 }
 
-export default async function TodoPage() {
+export default function TodoPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -47,8 +45,6 @@ export default async function TodoPage() {
 
   // pageSize
   const pageSize = 10;
-
-  const userId = await getUser(users[0].id)
 
   const queryClient = useQueryClient();
 
@@ -79,7 +75,6 @@ export default async function TodoPage() {
         sortField: sortField,
         currentPage: currentPage,
         pageSize: pageSize,
-        userId: String(userId[0])
       });
       console.log("QueryFn result:", result);
       return result;

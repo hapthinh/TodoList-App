@@ -190,7 +190,7 @@ async function POST(request) {
     const body = await request.json();
     console.log(body);
     const result = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$index$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].insert(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$schema$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["todos"]).values({
-        userId: body.userId,
+        userId: 1,
         todo: body.todo,
         completed: false,
         createdDate: new Date().toISOString()

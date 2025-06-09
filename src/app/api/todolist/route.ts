@@ -40,7 +40,7 @@ export async function GET(request: Request) {
     todos: pageTodos,
     total, 
     page,
-    limit
+    limit,
   })
 
 }
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   console.log(body);
 
   const result = await db.insert(todos).values({
-    userId: body.userId, 
+    userId: 1, 
     todo: body.todo,
     completed: false,
     createdDate: new Date().toISOString()

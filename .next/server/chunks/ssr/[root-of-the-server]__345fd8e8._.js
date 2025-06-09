@@ -38,7 +38,7 @@ __turbopack_context__.s({
     "updateTodoStatus": (()=>updateTodoStatus)
 });
 const API = "http://localhost:3000/api/todolist";
-async function getTodos({ kw = "", status = "", order = "asc", sortField = "todo", currentPage = 1, pageSize = 10 } = {}) {
+async function getTodos({ kw = "", status = "", order = "asc", sortField = "todo", currentPage = 1, pageSize = 10, userId = "" } = {}) {
     const params = new URLSearchParams();
     if (kw) {
         params.append("kw", kw);
@@ -107,7 +107,7 @@ function AddTodo({ input, setInput, onAdd }) {
                 type: "text",
                 value: input,
                 onChange: (e)=>setInput(e.target.value),
-                placeholder: "Viet todo moi"
+                placeholder: "Viết todo mới"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/addTodo.tsx",
                 lineNumber: 6,
@@ -116,7 +116,7 @@ function AddTodo({ input, setInput, onAdd }) {
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                 className: "text-gray-100 px-4 py-2 rounded-lg font-semibold shadow hover:bg-lime-800 transition bg-[#c6c2aa]",
                 onClick: onAdd,
-                children: "Them"
+                children: "Thêm"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/addTodo.tsx",
                 lineNumber: 13,
@@ -155,7 +155,7 @@ function FilterTodo({ searchInput, setSearchInput, handleSearch, selectStatus, s
                     onKeyDown: (e)=>{
                         if (e.key === "Enter") handleSearch(searchInput);
                     },
-                    placeholder: "Tim theo tu khoa"
+                    placeholder: "Tìm theo từ khóa"
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/filterTodo.tsx",
                     lineNumber: 19,
@@ -180,7 +180,7 @@ function FilterTodo({ searchInput, setSearchInput, handleSearch, selectStatus, s
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$headlessui$2f$react$2f$dist$2f$components$2f$combobox$2f$combobox$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ComboboxInput"], {
                             className: "text-black rounded-lg border border-gray-500 px-4 py-2 w-32 outline-none",
                             displayValue: ()=>selectStatus === "true" ? "Done" : selectStatus === "false" ? "Pending" : "Tat ca",
-                            placeholder: "trang thai"
+                            placeholder: ""
                         }, void 0, false, {
                             fileName: "[project]/src/app/components/filterTodo.tsx",
                             lineNumber: 40,
@@ -192,7 +192,7 @@ function FilterTodo({ searchInput, setSearchInput, handleSearch, selectStatus, s
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$headlessui$2f$react$2f$dist$2f$components$2f$combobox$2f$combobox$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["ComboboxOption"], {
                                     value: "",
                                     className: "px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-t-2xl",
-                                    children: "Tat ca"
+                                    children: "Tất Cả"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/filterTodo.tsx",
                                     lineNumber: 53,
@@ -251,12 +251,12 @@ function Statistic({ todos }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "text-black ml-50 text-2xl ",
         children: [
-            "Tong so: ",
+            "Tổng số: ",
             todos.length,
-            " | Da hoan thanh: ",
+            " | Đã hoàn thành: ",
             " ",
             todos.filter((t)=>t.completed).length,
-            " | Dang thuc hien: ",
+            " | Đang thực hiện: ",
             " ",
             todos.filter((t)=>!t.completed).length
         ]
@@ -289,7 +289,7 @@ function Pagination({ currentPage, data, pageSize, router, searchParams }) {
                     params.set("page", String(currentPage - 1));
                     router.push(`?${params.toString()}`);
                 },
-                children: "Trang truoc"
+                children: "Trang trước"
             }, void 0, false, {
                 fileName: "[project]/src/app/components/pagination.tsx",
                 lineNumber: 10,
@@ -486,7 +486,7 @@ function TodoPage() {
                         children: "Xóa"
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 162,
+                        lineNumber: 158,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -498,13 +498,13 @@ function TodoPage() {
                         children: "Đổi trạng thái"
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 169,
+                        lineNumber: 165,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                lineNumber: 160,
+                lineNumber: 156,
                 columnNumber: 9
             }, this)
         }, void 0, false);
@@ -519,12 +519,12 @@ function TodoPage() {
                     children: "TODOLIST"
                 }, void 0, false, {
                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                    lineNumber: 190,
+                    lineNumber: 186,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                lineNumber: 189,
+                lineNumber: 185,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -543,7 +543,7 @@ function TodoPage() {
                         }
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 195,
+                        lineNumber: 191,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$filterTodo$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -555,20 +555,20 @@ function TodoPage() {
                         router: router
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 208,
+                        lineNumber: 204,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                lineNumber: 193,
+                lineNumber: 189,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$statisticTodo$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 todos: todos
             }, void 0, false, {
                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                lineNumber: 218,
+                lineNumber: 214,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -600,20 +600,20 @@ function TodoPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                    lineNumber: 227,
+                                                    lineNumber: 223,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                            lineNumber: 225,
+                                            lineNumber: 221,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Status"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                            lineNumber: 250,
+                                            lineNumber: 246,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
@@ -632,31 +632,31 @@ function TodoPage() {
                                                     children: sortField === "createdDate" ? sortOrder === "asc" ? "▲" : "▼" : "↕"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                    lineNumber: 253,
+                                                    lineNumber: 249,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                            lineNumber: 251,
+                                            lineNumber: 247,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("th", {
                                             children: "Actions"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                            lineNumber: 271,
+                                            lineNumber: 267,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                    lineNumber: 224,
+                                    lineNumber: 220,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                lineNumber: 223,
+                                lineNumber: 219,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tbody", {
@@ -667,12 +667,12 @@ function TodoPage() {
                                         children: "Đang tải..."
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                                        lineNumber: 279,
+                                        lineNumber: 275,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                    lineNumber: 278,
+                                    lineNumber: 274,
                                     columnNumber: 15
                                 }, this) : todos.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -681,12 +681,12 @@ function TodoPage() {
                                         children: "Không có kết quả"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                                        lineNumber: 285,
+                                        lineNumber: 281,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                    lineNumber: 284,
+                                    lineNumber: 280,
                                     columnNumber: 15
                                 }, this) : todos.map((todo, idx)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("tr", {
                                         className: `border-1 h-10 ${idx % 2 === 0 ? "bg-[#c2f1cb]" : "bg-[#ebf1ec]"}`,
@@ -709,7 +709,7 @@ function TodoPage() {
                                                     autoFocus: true
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                    lineNumber: 299,
+                                                    lineNumber: 295,
                                                     columnNumber: 23
                                                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
@@ -718,7 +718,7 @@ function TodoPage() {
                                                             children: todo.todo
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                            lineNumber: 316,
+                                                            lineNumber: 312,
                                                             columnNumber: 25
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -733,19 +733,19 @@ function TodoPage() {
                                                                 color: "#CCC7BA"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                                lineNumber: 325,
+                                                                lineNumber: 321,
                                                                 columnNumber: 27
                                                             }, this)
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                            lineNumber: 317,
+                                                            lineNumber: 313,
                                                             columnNumber: 25
                                                         }, this)
                                                     ]
                                                 }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                lineNumber: 297,
+                                                lineNumber: 293,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -756,7 +756,7 @@ function TodoPage() {
                                                             className: "text-green-600 inline"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                            lineNumber: 333,
+                                                            lineNumber: 329,
                                                             columnNumber: 25
                                                         }, this),
                                                         " Done"
@@ -767,7 +767,7 @@ function TodoPage() {
                                                             className: "text-red-600 inline"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                            lineNumber: 337,
+                                                            lineNumber: 333,
                                                             columnNumber: 25
                                                         }, this),
                                                         " Pending"
@@ -775,7 +775,7 @@ function TodoPage() {
                                                 }, void 0, true)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                lineNumber: 330,
+                                                lineNumber: 326,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -783,7 +783,7 @@ function TodoPage() {
                                                 children: todo.createdDate ? new Date(todo.createdDate).toLocaleDateString("vi-VN") : ""
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                lineNumber: 341,
+                                                lineNumber: 337,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
@@ -791,24 +791,24 @@ function TodoPage() {
                                                 children: renderActions(todo)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                                lineNumber: 346,
+                                                lineNumber: 342,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, todo.id, true, {
                                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                                        lineNumber: 291,
+                                        lineNumber: 287,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                                lineNumber: 275,
+                                lineNumber: 271,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 221,
+                        lineNumber: 217,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$pagination$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -819,19 +819,19 @@ function TodoPage() {
                         searchParams: searchParams
                     }, void 0, false, {
                         fileName: "[project]/src/app/components/TodoPage.tsx",
-                        lineNumber: 355,
+                        lineNumber: 351,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/components/TodoPage.tsx",
-                lineNumber: 220,
+                lineNumber: 216,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/components/TodoPage.tsx",
-        lineNumber: 187,
+        lineNumber: 183,
         columnNumber: 5
     }, this);
 }
