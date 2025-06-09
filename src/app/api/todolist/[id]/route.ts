@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "app/db";
 import { todos } from "app/db/schema";
+import { deleteTodoById } from "app/services/todoServices";
 
 
 // Delete todo by id
@@ -11,7 +12,7 @@ export async function DELETE(request: Request) {
   const id = Number(url.pathname.split("/").pop());
   console.log(id);
 
-  const result = await db.delete(todos).where(eq(todos.id, id)).returning()
+  const result = await deleteTodoById(id)
 
   return NextResponse.json(result[0])
 }
