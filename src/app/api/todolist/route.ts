@@ -14,7 +14,6 @@ export async function GET(request: Request) {
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const order = searchParams.get("order") || "";
   const sortField = searchParams.get("sortField") || "id";
-
   const whereClaus = [];
 
   if(kw) whereClaus.push(ilike(todos.todo, `%${kw}%`))
@@ -51,6 +50,7 @@ export async function POST(request: Request) {
   console.log(body);
 
   const result = await db.insert(todos).values({
+    userId: body.userId, 
     todo: body.todo,
     completed: false,
     createdDate: new Date().toISOString()

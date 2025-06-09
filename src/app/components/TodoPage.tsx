@@ -9,16 +9,16 @@ import {
 import React, { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxOption,
-  ComboboxOptions,
-} from "@headlessui/react";
 import { CheckSquare, X, PenTool } from "@deemlol/next-icons";
 
 import { postTodo, deteleTodo, updateTodoStatus, getTodos } from "../services/api";
 import { Todo } from "app/type/type";
+import AddTodo from "./addTodo";
+import FilterTodo from "./filterTodo";
+import Statistic from "./statisticTodo";
+import Pagination from "./pagination";
+import { getUser } from "app/actions/userActions";
+import { users } from "app/db/schema";
 
 interface TodoResponse {
   todos: Todo[];
@@ -27,7 +27,7 @@ interface TodoResponse {
   limit: number;
 }
 
-export default function TodoPage() {
+export default async function TodoPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -47,6 +47,8 @@ export default function TodoPage() {
 
   // pageSize
   const pageSize = 10;
+
+  const userId = await getUser(users[0].id)
 
   const queryClient = useQueryClient();
 
@@ -77,6 +79,7 @@ export default function TodoPage() {
         sortField: sortField,
         currentPage: currentPage,
         pageSize: pageSize,
+        userId: String(userId[0])
       });
       console.log("QueryFn result:", result);
       return result;
@@ -188,94 +191,30 @@ export default function TodoPage() {
       {/* Input và filter */}
       <div className="flex items-center gap-4 border bg-[#c2f1cb] mb-6 p-4 rounded-xl shadow ml-50 w-180 text-black">
         {/* Add todo */}
-        <div className="flex items-center gap-2">
-          <input
-            className="text-black rounded-lg border border-indigo-400 focus:ring-2 focus:ring-indigo-500 px-4 py-2 w-56 outline-none transition"
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Viết todo mới"
-          />
-          <button
-            className="text-gray-100 px-4 py-2 rounded-lg font-semibold shadow hover:bg-lime-800 transition bg-[#c6c2aa]"
-            onClick={() => {
-              if (input.trim()) {
-                postTodoMutation.mutate({
-                  todo: input, 
-                });
-                setInput("");
-              }
-            }}
-          >
-            Thêm Todo
-          </button>
-        </div>
-        {/* Search */}
-        <div className="flex items-center gap-2">
-          <input
-            className="text-black rounded-lg border border-gray-500 focus:ring-2 focus:ring-indigo-400 px-4 py-2 w-44 outline-none transition"
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleSearch(searchInput);
-            }}
-            onBlur={() => handleSearch(searchInput)}
-            placeholder="Tìm theo từ khóa"
-          />
-        </div>
-        {/* Filter status */}
-        <div className="flex items-center gap-2">
-          {/* Combobox */}
-          <Combobox
-            value={selectStatus}
-            onChange={(value) => {
-              const params = new URLSearchParams(searchParams.toString());
-              params.set("status", value ?? "");
-              params.set("page", "1");
-              router.push(`?${params.toString()}`);
-            }}
-          >
-            <ComboboxInput
-              className="text-black rounded-lg border border-gray-500 px-4 py-2 w-32 outline-none"
-              displayValue={() =>
-                selectStatus === "true"
-                  ? "Done"
-                  : selectStatus === "false"
-                  ? "Pending"
-                  : "Tất cả"
-              }
-              placeholder="Trạng thái"
-            />
-            <ComboboxOptions className="border-indigo-400 text-black font-semibold bg-stone-200 rounded-2xl border-2 shadow-lg mt-2 divide-y divide-indigo-200">
-              <ComboboxOption
-                value=""
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-t-2xl"
-              >
-                Tất cả
-              </ComboboxOption>
-              <ComboboxOption
-                value="true"
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer"
-              >
-                Done
-              </ComboboxOption>
-              <ComboboxOption
-                value="false"
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-b-2xl"
-              >
-                Pending
-              </ComboboxOption>
-            </ComboboxOptions>
-          </Combobox>
-        </div>
+        <AddTodo
+          input={input}
+          setInput={setInput}
+          onAdd={() => {
+            if (input.trim()) {
+              postTodoMutation.mutate({
+                todo: input,
+              });
+              setInput("");
+            }
+          }}
+        />
+        {/* Search & Filter Status*/}
+        <FilterTodo 
+          searchInput={searchInput}
+          setSearchInput={setSearchInput}
+          handleSearch={handleSearch}
+          selectStatus={selectStatus}
+          searchParams={searchParams}
+          router={router}
+        />
       </div>
       {/* Statistic */}
-      <div className="text-black ml-50 text-2xl ">
-        Tổng số: {todos.length} | Đã hoàn thành:{" "}
-        {todos.filter((t) => t.completed).length} | Đang thực hiện:{" "}
-        {todos.filter((t) => !t.completed).length}
-      </div>
+      <Statistic todos={todos} />
       {/* Table */}
       <div className="mr-50 ml-50">
         <table className="table-auto border-1 w-full text-black bg-white rounded-2xl">
@@ -412,33 +351,13 @@ export default function TodoPage() {
           </tbody>
         </table>
         {/* Pagination */}
-        <div className="text-black mt-2">
-          <button
-            className="px-3 py-1 rounded bg-[#c6c2aa] hover:bg-gray-300"
-            disabled={currentPage <= 1}
-            onClick={() => {
-              const params = new URLSearchParams(searchParams.toString());
-              params.set("page", String(currentPage - 1));
-              router.push(`?${params.toString()}`);
-            }}
-          >
-            Trang trước
-          </button>
-          <span className="ml-55 mr-55">
-            Trang {currentPage} / {data ? Math.ceil(data.total / pageSize) : 1}
-          </span>
-          <button
-            className="px-3 py-1 rounded bg-[#c6c2aa] hover:bg-gray-300"
-            disabled={data && currentPage >= Math.ceil(data.total / pageSize)}
-            onClick={() => {
-              const params = new URLSearchParams(searchParams.toString());
-              params.set("page", String(currentPage + 1));
-              router.push(`?${params.toString()}`);
-            }}
-          >
-            Trang sau
-          </button>
-        </div>
+        <Pagination 
+          currentPage = {currentPage}
+          data = {data}
+          pageSize = {pageSize}
+          router = {router}
+          searchParams = {searchParams}
+        />
       </div>
     </div>
   );
