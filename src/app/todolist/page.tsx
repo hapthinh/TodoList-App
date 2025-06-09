@@ -11,12 +11,17 @@ import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { CheckSquare, X, PenTool } from "@deemlol/next-icons";
 
-import { postTodo, deteleTodo, updateTodoStatus, getTodos } from "../services/api";
+import {
+  postTodo,
+  deteleTodo,
+  updateTodoStatus,
+  getTodos,
+} from "../services/api";
 import { Todo } from "app/type/type";
-import AddTodo from "./addTodo";
-import FilterTodo from "./filterTodo";
-import Statistic from "./statisticTodo";
-import Pagination from "./pagination";
+import AddTodo from "app/components/addTodo";
+import FilterTodo from "app/components/filterTodo";
+import Statistic from "app/components/statisticTodo";
+import Pagination from "app/components/pagination";
 
 interface TodoResponse {
   todos: Todo[];
@@ -199,7 +204,7 @@ export default function TodoPage() {
           }}
         />
         {/* Search & Filter Status*/}
-        <FilterTodo 
+        <FilterTodo
           searchInput={searchInput}
           setSearchInput={setSearchInput}
           handleSearch={handleSearch}
@@ -346,12 +351,12 @@ export default function TodoPage() {
           </tbody>
         </table>
         {/* Pagination */}
-        <Pagination 
-          currentPage = {currentPage}
-          data = {data}
-          pageSize = {pageSize}
-          router = {router}
-          searchParams = {searchParams}
+        <Pagination
+          currentPage={currentPage}
+          data={data}
+          pageSize={pageSize}
+          router={router}
+          searchParams={searchParams}
         />
       </div>
     </div>

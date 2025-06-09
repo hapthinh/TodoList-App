@@ -12,4 +12,3 @@ export type Todo = {
 export type Todos = {
   todos: Todo[];
 };
-

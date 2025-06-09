@@ -5,16 +5,15 @@ import { db } from "app/db";
 import { todos } from "app/db/schema";
 import { deleteTodoById } from "app/services/todoServices";
 
-
 // Delete todo by id
 export async function DELETE(request: Request) {
   const url = new URL(request.url);
   const id = Number(url.pathname.split("/").pop());
   console.log(id);
 
-  const result = await deleteTodoById(id)
+  const result = await deleteTodoById(id);
 
-  return NextResponse.json(result[0])
+  return NextResponse.json(result[0]);
 }
 
 // Update Todo status or content by id
@@ -22,12 +21,17 @@ export async function PATCH(request: Request) {
   const url = new URL(request.url);
   const id = Number(url.pathname.split("/").pop());
   const body = await request.json();
-  const updateData : any = {}
+  const updateData: any = {};
 
-  if(typeof body.todo !== "undefined") updateData.todo = body.todo
-  if(typeof body.completed !== "undefined") updateData.completed = body.completed
+  if (typeof body.todo !== "undefined") updateData.todo = body.todo;
+  if (typeof body.completed !== "undefined")
+    updateData.completed = body.completed;
 
-  const result = await db.update(todos).set(updateData).where(eq(todos.id, id)).returning()
-  
-  return NextResponse.json(result[0])
+  const result = await db
+    .update(todos)
+    .set(updateData)
+    .where(eq(todos.id, id))
+    .returning();
+
+  return NextResponse.json(result[0]);
 }

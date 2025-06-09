@@ -43,32 +43,31 @@ export default function FilterTodo({
               selectStatus === "true"
                 ? "Done"
                 : selectStatus === "false"
-                ? "Pending"
-                : "Tat ca"
+                  ? "Pending"
+                  : "Tat ca"
             }
             placeholder=""
-          >
-          </ComboboxInput>
+          ></ComboboxInput>
           <ComboboxOptions className="border-indigo-400 text-black font-semibold bg-stone-200 rounded-2xl border-2 shadow-lg mt-2 divide-y divide-indigo-200">
-              <ComboboxOption
-                value=""
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-t-2xl"
-              >
-                Tất Cả
-              </ComboboxOption>
-              <ComboboxOption
-                value="true"
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer"
-              >
-                Done
-              </ComboboxOption>
-              <ComboboxOption
-                value="false"
-                className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-b-2xl"
-              >
-                Pending
-              </ComboboxOption>
-            </ComboboxOptions>
+            <ComboboxOption
+              value=""
+              className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-t-2xl"
+            >
+              Tất Cả
+            </ComboboxOption>
+            <ComboboxOption
+              value="true"
+              className="px-4 py-2 hover:bg-indigo-100 cursor-pointer"
+            >
+              Done
+            </ComboboxOption>
+            <ComboboxOption
+              value="false"
+              className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-b-2xl"
+            >
+              Pending
+            </ComboboxOption>
+          </ComboboxOptions>
         </Combobox>
       </div>
     </>

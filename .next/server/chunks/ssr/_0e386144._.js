@@ -57,13 +57,13 @@ const SuspenseWrapper = ({ children })=>{
         }, void 0, false, {
             fileName: "[project]/src/app/utils/SuspenseWrapper.tsx",
             lineNumber: 4,
-            columnNumber: 32
+            columnNumber: 30
         }, void 0),
         children: children
     }, void 0, false, {
         fileName: "[project]/src/app/utils/SuspenseWrapper.tsx",
         lineNumber: 4,
-        columnNumber: 12
+        columnNumber: 10
     }, this);
 };
 }}),
@@ -144,7 +144,7 @@ async function RootLayout({ children }) {
                             initialIsOpen: false
                         }, void 0, false, {
                             fileName: "[project]/src/app/layout.tsx",
-                            lineNumber: 24,
+                            lineNumber: 22,
                             columnNumber: 13
                         }, this)
                     ]

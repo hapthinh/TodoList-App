@@ -23,10 +23,9 @@ const handler = NextAuth({
       return session;
     },
     async redirect({}) {
-        return '/todolist'
-    }
+      return "/todolist";
+    },
   },
 });
 
-export {handler as GET, handler as POST}
-
+export { handler as GET, handler as POST };

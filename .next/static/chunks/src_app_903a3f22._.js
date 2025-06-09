@@ -10,7 +10,7 @@ __turbopack_context__.s({
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next-auth/react/index.js [app-client] (ecmascript)");
-'use client';
+"use client";
 ;
 ;
 function Providers({ children }) {
@@ -43,7 +43,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$query$2d$core$2f$build$2f$modern$2f$queryClient$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/query-core/build/modern/queryClient.js [app-client] (ecmascript)");
 ;
 var _s = __turbopack_context__.k.signature();
-'use client';
+"use client";
 ;
 ;
 function QueryClientWrapper({ children }) {
@@ -56,8 +56,8 @@ function QueryClientWrapper({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/app/utils/QueryClientWrapper.tsx",
-        lineNumber: 10,
-        columnNumber: 9
+        lineNumber: 14,
+        columnNumber: 5
     }, this);
 }
 _s(QueryClientWrapper, "qFhNRSk+4hqflxYLL9+zYF5AcuQ=");

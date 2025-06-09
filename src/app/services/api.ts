@@ -11,7 +11,7 @@ export async function getTodos({
   sortField = "todo",
   currentPage = 1,
   pageSize = 10,
-  userId = ""
+  userId = "",
 } = {}) {
   const params = new URLSearchParams();
   if (kw) {

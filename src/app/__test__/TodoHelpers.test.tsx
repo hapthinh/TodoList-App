@@ -47,7 +47,7 @@ jest.mock("@tanstack/react-query", () => ({
   keepPreviousData: {},
 }));
 
-import TodoPage from "./TodoPage";
+import TodoPage from "app/todolist/page";
 
 // TEST RENDER BUTTON
 describe("TodoPage UI", () => {

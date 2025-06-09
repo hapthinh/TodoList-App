@@ -1,10 +1,10 @@
-export default function Pagination(
-  {currentPage,
+export default function Pagination({
+  currentPage,
   data,
   pageSize,
   router,
-  searchParams}
-) {
+  searchParams,
+}) {
   return (
     <div className="text-black mt-2">
       <button

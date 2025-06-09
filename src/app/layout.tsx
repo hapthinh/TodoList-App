@@ -2,10 +2,10 @@ import React from "react";
 
 import Providers from "./provider/provider";
 import "./globals.css";
-import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SuspenseWrapper } from "./utils/SuspenseWrapper";
-import QueryClientWrapper  from "./utils/QueryClientWrapper";
+import QueryClientWrapper from "./utils/QueryClientWrapper";
 
 export default async function RootLayout({
   children,
@@ -18,9 +18,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <QueryClientWrapper>
-            <SuspenseWrapper>
-              {children}
-            </SuspenseWrapper>
+            <SuspenseWrapper>{children}</SuspenseWrapper>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientWrapper>
         </Providers>

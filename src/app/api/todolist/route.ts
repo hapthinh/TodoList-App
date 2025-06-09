@@ -16,45 +16,53 @@ export async function GET(request: Request) {
   const sortField = searchParams.get("sortField") || "id";
   const whereClaus = [];
 
-  if(kw) whereClaus.push(ilike(todos.todo, `%${kw}%`))
-  if(status) whereClaus.push(eq(todos.completed, status === "true"))
+  if (kw) whereClaus.push(ilike(todos.todo, `%${kw}%`));
+  if (status) whereClaus.push(eq(todos.completed, status === "true"));
 
   // valid field for sort
-  const validSortField =  {
+  const validSortField = {
     id: todos.id,
     todo: todos.todo,
-    createdDate: todos.createdDate
-  }
+    createdDate: todos.createdDate,
+  };
 
-  const result = await db.select()
-                          .from(todos)
-                          .where(whereClaus.length ? and(...whereClaus) : undefined)
-                          .orderBy(order === "asc" ? asc(validSortField[sortField]) : desc(validSortField[sortField]))
-  
-  const total = result.length
-  const start = (page - 1)*limit;
+  const result = await db
+    .select()
+    .from(todos)
+    .where(whereClaus.length ? and(...whereClaus) : undefined)
+    .orderBy(
+      order === "asc"
+        ? asc(validSortField[sortField])
+        : desc(validSortField[sortField])
+    );
+
+  // pagination
+  const total = result.length;
+  const start = (page - 1) * limit;
   const end = start + limit;
-  const pageTodos = result.slice(start, end)
+  const pageTodos = result.slice(start, end);
 
   return NextResponse.json({
     todos: pageTodos,
-    total, 
+    total,
     page,
     limit,
-  })
-
+  });
 }
 
 export async function POST(request: Request) {
   const body = await request.json();
   console.log(body);
 
-  const result = await db.insert(todos).values({
-    userId: 1, 
-    todo: body.todo,
-    completed: false,
-    createdDate: new Date().toISOString()
-  }).returning()
+  const result = await db
+    .insert(todos)
+    .values({
+      userId: 1,
+      todo: body.todo,
+      completed: false,
+      createdDate: new Date().toISOString(),
+    })
+    .returning();
 
-  return NextResponse.json(result[0])
+  return NextResponse.json(result[0]);
 }
