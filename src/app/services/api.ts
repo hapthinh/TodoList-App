@@ -10,7 +10,7 @@ export async function getTodos({
   order = "asc",
   sortField = "todo",
   currentPage = 1,
-  pageSize = 10,
+  pageSize = 10
 } = {}) {
   const params = new URLSearchParams();
   if (kw) {
@@ -56,15 +56,15 @@ export async function deteleTodo({ id }: { id: number }) {
 // API UPDATE TODO
 export async function updateTodoStatus({
   id,
-  status,
+  completed,
   todo,
 }: {
   id: number;
-  status?: boolean;
+  completed?: boolean;
   todo?: string;
 }) {
   const body: any = {};
-  if (typeof status !== "undefined") body.status = status;
+  if (typeof completed !== "undefined") body.completed = completed;
   if (typeof todo !== "undefined") body.todo = todo;
 
   const res = await fetch(`${API}/${id}`, {

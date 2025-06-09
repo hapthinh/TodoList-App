@@ -74,9 +74,9 @@ async function deteleTodo({ id }) {
     });
     return res.json();
 }
-async function updateTodoStatus({ id, status, todo }) {
+async function updateTodoStatus({ id, completed, todo }) {
     const body = {};
-    if (typeof status !== "undefined") body.status = status;
+    if (typeof completed !== "undefined") body.completed = completed;
     if (typeof todo !== "undefined") body.todo = todo;
     const res = await fetch(`${API}/${id}`, {
         method: "PATCH",
@@ -86,7 +86,19 @@ async function updateTodoStatus({ id, status, todo }) {
         body: JSON.stringify(body)
     });
     return res.json();
+} /*
+import { db } from "../db";
+import { todo } from "../db/schema/todo.schema";
+
+export async function getTodos(kw = "",
+  status = "",
+  order = "asc",
+  sortField = "todo",
+  currentPage = 1,
+  pageSize = 10,) {
+  return await db.select().from(todo);
 }
+  */ 
 }}),
 "[project]/src/app/components/TodoPage.tsx [app-ssr] (ecmascript)": ((__turbopack_context__) => {
 "use strict";
@@ -245,7 +257,7 @@ function TodoPage() {
                         className: "px-2 py-1 rounded bg-yellow-200 text-yellow-800 hover:bg-yellow-400 transition ml-1",
                         onClick: ()=>updateTodoMutation.mutate({
                                 id: todo.id,
-                                status: !todo.status
+                                completed: !todo.completed
                             }),
                         children: "Đổi trạng thái"
                     }, void 0, false, {
@@ -609,7 +621,7 @@ function TodoPage() {
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("td", {
                                                 className: "content-center",
-                                                children: todo.status ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
+                                                children: todo.completed ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
                                                     children: [
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$deemlol$2f$next$2d$icons$2f$build$2f$index$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CheckSquare"], {
                                                             className: "text-green-600 inline"

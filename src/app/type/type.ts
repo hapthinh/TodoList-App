@@ -4,7 +4,7 @@ import { Key } from "react";
 export type Todo = {
   id: number;
   todo: string;
-  status: boolean;
+  completed: boolean;
   createdDate: Date;
 };
 

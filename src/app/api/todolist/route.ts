@@ -1,123 +1,60 @@
-import mysql from "mysql2/promise";
-
 import { NextResponse } from "next/server";
+import { ilike, eq, and, asc, desc } from "drizzle-orm";
 
-import { GetDBSettings } from "shareCode/common";
+import { todos } from "app/db/schema";
+import { db } from "app/db";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
+  // get params
   const kw = searchParams.get("kw") || "";
   const status = searchParams.get("status") || "";
   const page = parseInt(searchParams.get("page") || "1", 10);
   const limit = parseInt(searchParams.get("limit") || "10", 10);
   const order = searchParams.get("order") || "";
-  const sortField = searchParams.get("sortField") || "";
+  const sortField = searchParams.get("sortField") || "id";
 
-  try {
-    const connectionsParams = GetDBSettings();
-    const connection = await mysql.createConnection(connectionsParams);
+  const whereClaus = [];
 
-    let query = "SELECT * FROM todolist.todo WHERE 1=1";
-    const values: any[] = [];
+  if(kw) whereClaus.push(ilike(todos.todo, `%${kw}%`))
+  if(status) whereClaus.push(eq(todos.completed, status === "true"))
 
-    if (kw) {
-      query += " AND todo LIKE ?";
-      values.push(`%${kw}%`);
-    }
-
-    if (status) {
-      query += " AND status = ?";
-      values.push(status ? 1 : 0);
-    }
-
-    if (sortField && order) {
-      query += ` ORDER BY ${sortField} ${order}`;
-    }
-
-    const [result]: any = await connection.execute(query, values);
-
-    await connection.end();
-
-    const len = result;
-    const total = len.length;
-    const start = (page - 1) * limit;
-    const end = start + limit;
-    const pageTodos = len.slice(start, end);
-
-    console.log("data :", pageTodos);
-    return NextResponse.json({
-      todos: pageTodos,
-      total,
-      page,
-      limit,
-    });
-  } catch (error) {
-    console.log("ERROR: ", (error as Error).message);
-    const response = {
-      error: (error as Error).message,
-
-      returnedStatus: 200,
-    };
-
-    return NextResponse.json(response, { status: 200 });
+  // valid field for sort
+  const validSortField =  {
+    id: todos.id,
+    todo: todos.todo,
+    createdDate: todos.createdDate
   }
+
+  const result = await db.select()
+                          .from(todos)
+                          .where(whereClaus.length ? and(...whereClaus) : undefined)
+                          .orderBy(order === "asc" ? asc(validSortField[sortField]) : desc(validSortField[sortField]))
+  
+  const total = result.length
+  const start = (page - 1)*limit;
+  const end = start + limit;
+  const pageTodos = result.slice(start, end)
+
+  return NextResponse.json({
+    todos: pageTodos,
+    total, 
+    page,
+    limit
+  })
+
 }
 
 export async function POST(request: Request) {
   const body = await request.json();
   console.log(body);
-  const todoContent = body.todo;
 
-  try {
-    const connectionsParams = GetDBSettings();
-    const connection = await mysql.createConnection(connectionsParams);
+  const result = await db.insert(todos).values({
+    todo: body.todo,
+    completed: false,
+    createdDate: new Date().toISOString()
+  }).returning()
 
-    const query = `
-      INSERT INTO todolist.todo (todo, status, createdDate)
-      VALUES (?, ?, ?)
-    `;
-    const createdDate = new Date().toISOString().slice(0, 19).replace("T", " ");
-
-    const values = [todoContent, 1, createdDate];
-
-    const [result] = await connection.execute(query, values);
-
-    await connection.end();
-
-    return NextResponse.json({ result });
-  } catch (err) {
-    console.log("ERROR: ", (err as Error).message);
-    const response = {
-      error: (err as Error).message,
-      returnStatus: 200,
-    };
-    return NextResponse.json({ response });
-  }
-}
-
-export async function DELETE(request: Request) {
-  const body = await request.json();
-  const id = body.id;
-  console.log(id);
-  try {
-    const connectionsParams = GetDBSettings();
-    const connection = await mysql.createConnection(connectionsParams);
-
-    const query = `DELETE FROM todolist.todo WHERE id=?`;
-    const values = [id];
-
-    const [result] = await connection.execute(query, values);
-
-    await connection.end();
-
-    return NextResponse.json(result);
-  } catch (err) {
-    console.log("ERROR: ", (err as Error).message);
-    const response = {
-      error: (err as Error).message,
-      returnSatus: 500,
-    };
-    return NextResponse.json({ response });
-  }
+  return NextResponse.json(result[0])
 }

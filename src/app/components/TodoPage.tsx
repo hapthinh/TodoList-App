@@ -17,8 +17,8 @@ import {
 } from "@headlessui/react";
 import { CheckSquare, X, PenTool } from "@deemlol/next-icons";
 
-import { postTodo, deteleTodo, updateTodoStatus, getTodos } from "../lib/api";
-import { Todo } from "app/data/type";
+import { postTodo, deteleTodo, updateTodoStatus, getTodos } from "../services/api";
+import { Todo } from "app/type/type";
 
 interface TodoResponse {
   todos: Todo[];
@@ -167,7 +167,7 @@ export default function TodoPage() {
             onClick={() =>
               updateTodoMutation.mutate({
                 id: todo.id,
-                status: !todo.status,
+                completed: !todo.completed,
               })
             }
           >
@@ -273,8 +273,8 @@ export default function TodoPage() {
       {/* Statistic */}
       <div className="text-black ml-50 text-2xl ">
         Tổng số: {todos.length} | Đã hoàn thành:{" "}
-        {todos.filter((t) => t.status).length} | Đang thực hiện:{" "}
-        {todos.filter((t) => !t.status).length}
+        {todos.filter((t) => t.completed).length} | Đang thực hiện:{" "}
+        {todos.filter((t) => !t.completed).length}
       </div>
       {/* Table */}
       <div className="mr-50 ml-50">
@@ -388,7 +388,7 @@ export default function TodoPage() {
                     )}
                   </td>
                   <td className="content-center">
-                    {todo.status ? (
+                    {todo.completed ? (
                       <>
                         <CheckSquare className="text-green-600 inline" /> Done
                       </>
