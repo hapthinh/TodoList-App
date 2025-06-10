@@ -81,7 +81,7 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 const pool = new __TURBOPACK__imported__module__$5b$externals$5d2f$pg__$5b$external$5d$__$28$pg$2c$__esm_import$29$__["Pool"]({
-    connectionString: process.env.DATABASE_URL || "postgres://postgres:2102003o@localhost:5432/todolist_db"
+    connectionString: process.env.DATABASE_URL || "postgres://postgres:root@localhost:5432/todolist_db"
 });
 const db = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$drizzle$2d$orm$2f$node$2d$postgres$2f$driver$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["drizzle"])(pool);
 __turbopack_async_result__();

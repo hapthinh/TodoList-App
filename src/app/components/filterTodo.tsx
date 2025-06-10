@@ -17,7 +17,7 @@ export default function FilterTodo({
     <>
       <div className="flex items-center gap-2">
         <input
-          className="text-black rounded-lg border border-gray-500 focus:ring-2 focus:ring-indigo-400 px-4 py-2 w-44 outline-none transition"
+          className="text-black rounded-lg border border-gray-500 focus:ring-2 focus:ring-indigo-400 px-4 py-2 w-100 outline-none transition"
           type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}

@@ -189,7 +189,7 @@ export default function TodoPage() {
         <p>TODOLIST</p>
       </div>
       {/* Input và filter */}
-      <div className="flex items-center gap-4 border bg-[#c2f1cb] mb-6 p-4 rounded-xl shadow ml-50 w-180 text-black">
+      <div className="flex items-center gap-4 border bg-[#c2f1cb] mb-6 p-4 rounded-xl shadow ml-50 w-278 text-black">
         {/* Add todo */}
         <AddTodo
           input={input}
