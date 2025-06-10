@@ -251,6 +251,8 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
     providers: [
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$providers$2f$credentials$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
+            id: "credentials",
+            name: "credentials",
             credentials: {
                 email: {
                     label: "Email",

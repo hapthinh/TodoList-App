@@ -1,20 +1,45 @@
-import { SignInPage } from "@toolpad/core";
-import { providerMap } from "auth";
+"use client";
+
 import { signIn } from "next-auth/react";
-import type { AuthProvider, AuthResponse } from "@toolpad/core";
+import { useState } from "react";
 
 export default function SignIn() {
-  const handleSignIn = async (
-    provider: AuthProvider,
-    formData?: FormData,
-    callbackUrl?: string
-  ): Promise<AuthResponse> => {
-    return signIn(provider.id, {
-      email: formData?.get("email"),
-      password: formData?.get("password"),
-      callbackUrl,
-      redirect: true,
-    });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("")
+
+  const handleSignIn = async () => {
+    await signIn('credentials', {
+      redirect: false,
+      email,
+      password,
+    }).then((response) => 
+      console.log(response)
+    )
   };
-  return <SignInPage providers={providerMap} signIn={handleSignIn} />;
+
+  return (
+    <div>
+      <div>Sign in to your account</div>
+      <div>
+        <form onSubmit={handleSignIn}>
+        <label>Nhap email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></input>
+        <label>password</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></input>
+        <button
+          type="submit"
+        >dang nhap</button>
+              </form>
+
+      </div>
+    </div>
+  )
 }

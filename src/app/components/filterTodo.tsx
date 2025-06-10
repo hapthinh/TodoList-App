@@ -24,7 +24,7 @@ export default function FilterTodo({
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSearch(searchInput);
           }}
-          placeholder="Tìm theo từ khóa"
+          placeholder="Enter keyword"
         />
       </div>
       <div className="flex items-center gap-2">
@@ -44,7 +44,7 @@ export default function FilterTodo({
                 ? "Done"
                 : selectStatus === "false"
                   ? "Pending"
-                  : "Tat ca"
+                  : "All"
             }
             placeholder=""
           ></ComboboxInput>
@@ -53,7 +53,7 @@ export default function FilterTodo({
               value=""
               className="px-4 py-2 hover:bg-indigo-100 cursor-pointer rounded-t-2xl"
             >
-              Tất Cả
+              All
             </ComboboxOption>
             <ComboboxOption
               value="true"

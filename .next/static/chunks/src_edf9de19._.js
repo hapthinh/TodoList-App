@@ -74,28 +74,48 @@ __turbopack_context__.s({
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$toolpad$2f$core$2f$esm$2f$SignInPage$2f$SignInPage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@toolpad/core/esm/SignInPage/SignInPage.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/auth.ts [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next-auth/react/index.js [app-client] (ecmascript)");
 ;
 ;
 ;
-;
+/*
+const handleSignIn = async (
+    provider: AuthProvider,
+    formData?: FormData,
+    callbackUrl?: string
+  ): Promise<AuthResponse> => {
+    return signIn(provider.id, {
+      email: formData?.get("email"),
+      password: formData?.get("password"),
+      callbackUrl,
+      redirect: true,
+    });
+  };
+
+export default function SignIn() {
+  return <SignInPage providers={providerMap} signIn={handleSignIn} />;
+}
+  */ const signIn = async (provider, formData)=>{
+    const promise = new Promise((resolve)=>{
+        setTimeout(()=>{
+            const email = formData?.get('email');
+            const password = formData?.get('password');
+            alert(`sign in with ${provider.name}`);
+            resolve({
+                type: 'CredentialsSignin',
+                error: 'Invalid credentials'
+            });
+        }, 3000);
+    });
+    return promise;
+};
 function SignIn() {
-    'use server';
-    const handleSignIn = async (provider, formData, callbackUrl)=>{
-        return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["signIn"])(provider.id, {
-            email: formData?.get("email"),
-            password: formData?.get("password"),
-            callbackUrl,
-            redirect: true
-        });
-    };
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$toolpad$2f$core$2f$esm$2f$SignInPage$2f$SignInPage$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SignInPage"], {
-        providers: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["providerMap"],
-        signIn: handleSignIn
+        signIn: signIn,
+        providers: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$auth$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["providerMap"]
     }, void 0, false, {
         fileName: "[project]/src/app/auth/signin/page.tsx",
-        lineNumber: 20,
-        columnNumber: 10
+        lineNumber: 46,
+        columnNumber: 5
     }, this);
 }
 _c = SignIn;
@@ -991,7 +1011,7 @@ var _s = __turbopack_context__.k.signature();
 ;
 function App() {
     _s();
-    const { data: session, status } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSession"])();
+    const { data: session } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSession"])();
     if (!session) return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$auth$2f$signin$2f$page$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
         fileName: "[project]/src/app/page.tsx",
         lineNumber: 12,
@@ -1005,7 +1025,7 @@ function App() {
         }, this)
     }, void 0, false);
 }
-_s(App, "ujwIunAD3hlHFoJLG3BNiDLiMqM=", false, function() {
+_s(App, "xGqsfA9Yc4bug2CeORcyTsHwvXY=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSession"]
     ];

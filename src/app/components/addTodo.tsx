@@ -8,13 +8,13 @@ export default function AddTodo({ input, setInput, onAdd }) {
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        placeholder="Viết todo mới"
+        placeholder="Enter New Todo"
       />
       <button
-        className="text-gray-100 px-4 py-2 rounded-lg font-semibold shadow hover:bg-lime-800 transition bg-[#c6c2aa] w-20"
+        className="text-black px-4 py-2 rounded-lg font-semibold shadow hover:bg-lime-800 transition bg-[#c6c2aa] w-20"
         onClick={onAdd}
       >
-        Thêm
+        Add
       </button>
     </div>
   );

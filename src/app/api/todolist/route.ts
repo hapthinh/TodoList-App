@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { ilike, eq, and, asc, desc } from "drizzle-orm";
+import { ilike, eq, and, asc, desc, sql } from "drizzle-orm";
 
 import { todos } from "app/db/schema";
 import { db } from "app/db";
+import { statistic } from "app/services/todoServices";
+import { Todo, Todos } from "app/type/type";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -16,6 +18,7 @@ export async function GET(request: Request) {
   const sortField = searchParams.get("sortField") || "id";
   const whereClaus = [];
 
+  // if have kw or status => push 
   if (kw) whereClaus.push(ilike(todos.todo, `%${kw}%`));
   if (status) whereClaus.push(eq(todos.completed, status === "true"));
 
@@ -24,8 +27,10 @@ export async function GET(request: Request) {
     id: todos.id,
     todo: todos.todo,
     createdDate: todos.createdDate,
+    status: todos.completed,
   };
 
+  // select * from todos where .. order sortField asc/desc
   const result = await db
     .select()
     .from(todos)
@@ -35,6 +40,10 @@ export async function GET(request: Request) {
         ? asc(validSortField[sortField])
         : desc(validSortField[sortField])
     );
+
+  // statistic
+  const completedCount = await statistic(true);
+  const unCompletedCount = await statistic(false);
 
   // pagination
   const total = result.length;
@@ -47,6 +56,8 @@ export async function GET(request: Request) {
     total,
     page,
     limit,
+    unCompletedCount,
+    completedCount,
   });
 }
 
@@ -54,6 +65,7 @@ export async function POST(request: Request) {
   const body = await request.json();
   console.log(body);
 
+  // Insert todo Values(...)
   const result = await db
     .insert(todos)
     .values({
@@ -66,3 +78,13 @@ export async function POST(request: Request) {
 
   return NextResponse.json(result[0]);
 }
+
+export async function DELETE(request: Request) {
+  const exampleKey = [17, 18 , 19 , 30]
+
+  const result = await db.delete(todos).where(sql`${todos.id} IN (${exampleKey})`).returning();
+
+  return NextResponse.json(result[0])
+}
+
+

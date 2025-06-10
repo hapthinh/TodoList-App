@@ -9,8 +9,6 @@ import { deleteTodoById } from "app/services/todoServices";
 export async function DELETE(request: Request) {
   const url = new URL(request.url);
   const id = Number(url.pathname.split("/").pop());
-  console.log(id);
-
   const result = await deleteTodoById(id);
 
   return NextResponse.json(result[0]);
@@ -23,10 +21,12 @@ export async function PATCH(request: Request) {
   const body = await request.json();
   const updateData: any = {};
 
+  // if have todo or completed
   if (typeof body.todo !== "undefined") updateData.todo = body.todo;
   if (typeof body.completed !== "undefined")
     updateData.completed = body.completed;
 
+  // Update todo set ... where todo.id = id
   const result = await db
     .update(todos)
     .set(updateData)

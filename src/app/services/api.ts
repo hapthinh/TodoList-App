@@ -8,12 +8,12 @@ export async function getTodos({
   kw = "",
   status = "",
   order = "asc",
-  sortField = "todo",
+  sortField = "status",
   currentPage = 1,
   pageSize = 10,
-  userId = "",
 } = {}) {
   const params = new URLSearchParams();
+
   if (kw) {
     params.append("kw", kw);
   }
@@ -22,6 +22,7 @@ export async function getTodos({
   }
   if (order) params.append("order", order);
   if (sortField) params.append("sortField", sortField);
+
   params.append("page", String(currentPage));
   params.append("limit", String(pageSize));
 
@@ -43,6 +44,7 @@ export async function postTodo({ todo }: { todo: string }) {
       todo: todo,
     }),
   });
+
   return res.json();
 }
 
@@ -51,6 +53,7 @@ export async function deteleTodo({ id }: { id: number }) {
   const res = await fetch(`${API}/${id}`, {
     method: "DELETE",
   });
+
   return res.json();
 }
 
@@ -65,6 +68,7 @@ export async function updateTodoStatus({
   todo?: string;
 }) {
   const body: any = {};
+
   if (typeof completed !== "undefined") body.completed = completed;
   if (typeof todo !== "undefined") body.todo = todo;
 
@@ -73,5 +77,14 @@ export async function updateTodoStatus({
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(body),
   });
+
+  return res.json();
+}
+
+export async function deleteMultiTodo() {
+  const res = await fetch(`${API}`, {
+    method: "DELETE",
+  });
+  
   return res.json();
 }

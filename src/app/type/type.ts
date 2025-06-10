@@ -1,5 +1,3 @@
-import { Key } from "react";
-
 //Type of Todo
 export type Todo = {
   id: number;

@@ -3,11 +3,13 @@ import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 const handler = NextAuth({
   providers: [
     Credentials({
+      id: "credentials",
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
@@ -23,7 +25,8 @@ const handler = NextAuth({
             credentials.password,
             user.password
           );
-          if (isPasswordCorrect) return { id: String(user.id), email: user.email };
+          if (isPasswordCorrect)
+            return { id: String(user.id), email: user.email };
         }
       },
     }),
