@@ -7,9 +7,10 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (e) => {
+    e.preventDefault()
     await signIn('credentials', {
-      redirect: false,
+      redirect: true,
       email,
       password,
     }).then((response) => 

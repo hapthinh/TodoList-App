@@ -267,12 +267,13 @@ const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
                 const usersFound = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$index$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["db"].select().from(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$schema$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["users"]).where((0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$drizzle$2d$orm$2f$sql$2f$expressions$2f$conditions$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["eq"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$schema$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["users"].email, credentials.email));
                 const user = usersFound[0];
                 if (user) {
-                    const isPasswordCorrect = await __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"].compare(credentials.password, user.password);
+                    const isPasswordCorrect = await (0, __TURBOPACK__imported__module__$5b$externals$5d2f$bcrypt__$5b$external$5d$__$28$bcrypt$2c$__cjs$29$__["default"])(credentials.password, user.password);
                     if (isPasswordCorrect) return {
                         id: String(user.id),
                         email: user.email
                     };
                 }
+                return null;
             }
         })
     ],
@@ -284,7 +285,7 @@ const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
         async session ({ session }) {
             return session;
         },
-        async redirect ({}) {
+        async redirect () {
             return "/todolist";
         }
     }

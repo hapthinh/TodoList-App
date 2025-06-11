@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 111, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Toby/TodoList/TodoList-App/src/app/page.tsx"],"sourcesContent":["\"use client\";\r\n\r\nimport React from \"react\";\r\nimport { useSession } from \"next-auth/react\";\r\n\r\nimport SignIn from \"./auth/signin/page\";\r\nimport TodoPage from \"./todolist/page\";\r\nimport { useRouter } from \"next/navigation\";\r\nimport { getServerSession } from \"next-auth\";\r\n\r\nexport default async function HomePage() {\r\n  const authSession = await getServerSession();\r\n  const useR\r\n  return(\r\n    <main>\r\n      {authSession?.user}\r\n      {!authSession?.user && (\r\n        <button onClick={() => {\r\n          \r\n        }}></button>\r\n      )}\r\n    </main>\r\n  )\r\n}\r\n"],"names":[],"mappings":";;;;AAQA;AARA;;;AAUe,eAAe;IAC5B,MAAM,cAAc,MAAM,CAAA,GAAA,qIAAA,CAAA,mBAAgB,AAAD;IACzC,MAAM;IACN,qBACE,8OAAC;;YACE,aAAa;YACb,CAAC,aAAa,sBACb,8OAAC;gBAAO,SAAS,KAEjB;;;;;;;;;;;;AAIR","debugId":null}}]
+}

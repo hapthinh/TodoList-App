@@ -10,3 +10,9 @@ export type Todo = {
 export type Todos = {
   todos: Todo[];
 };
+
+export type User = {
+  id?: string,
+  name?: string,
+  email?: string
+}

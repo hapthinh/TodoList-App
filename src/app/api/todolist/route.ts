@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { ilike, eq, and, asc, desc, sql, inArray } from "drizzle-orm";
+import { ilike, eq, and, asc, desc, inArray } from "drizzle-orm";
 
 import { todos } from "app/db/schema";
 import { db } from "app/db";
 import { statistic } from "app/services/todoServices";
-import { Todo, Todos } from "app/type/type";
-import { error } from "console";
+
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);

@@ -1,9 +1,8 @@
 import { db } from "app/db";
 import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import bcrypt from "bcrypt";
 
 const handler = NextAuth({
   providers: [
@@ -21,13 +20,10 @@ const handler = NextAuth({
           .where(eq(users.email, credentials.email));
         const user = usersFound[0];
         if (user) {
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-          if (isPasswordCorrect)
+          if (credentials.password === user.password)
             return { id: String(user.id), email: user.email };
         }
+        return null;
       },
     }),
   ],
@@ -35,11 +31,18 @@ const handler = NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    async session({ session }) {
+    async session({ session, token }) {
+      console.log({ token }, { session });
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
       return session;
     },
-    async redirect({}) {
+    async redirect() {
       return "/todolist";
     },
   },

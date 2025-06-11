@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "app/db";
 import { todos } from "app/db/schema";
-import { deleteTodoById, getTodoById } from "app/services/todoServices";
+import { deleteTodoById } from "app/services/todoServices";
 import { stringify } from "querystring";
 
 // Delete todo by id

@@ -28,12 +28,13 @@ import {
   getTodos,
   deleteMultiTodo,
 } from "../services/api";
-import { Todo } from "app/type/type";
+import { Todo, User } from "app/types/type";
 import AddTodo from "app/components/addTodo";
 import FilterTodo from "app/components/filterTodo";
 import Statistic from "app/components/statisticTodo";
 import Checkbox from "@mui/material/Checkbox";
 import Badge from "@mui/material/Badge";
+import { useSession } from "next-auth/react";
 
 // type todo response
 interface TodoResponse {
@@ -45,7 +46,10 @@ interface TodoResponse {
   unCompletedCount: number;
 }
 
-export default function TodoPage1() {
+export default function TodoPage() {
+  const { data: session } = useSession()
+  const userId = session?.user.id
+
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -213,7 +217,7 @@ export default function TodoPage1() {
       {/* Header */}
       <div className="basis-128 text-center mb-4 mr-50 ml-50 text-5xl bg-[#FFE794] text-[#050505] font-extrabold">
         <ReceiptLongIcon />
-        YourTODO
+        YourTODO{userId}
       </div>
       {/* Input và filter */}
       <div className="flex justify-center ml-100 gap-4 border bg-[#FEFFDF] mb-6 p-4 rounded-xl shadow w-278 text-black h-25">

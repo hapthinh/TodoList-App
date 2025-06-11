@@ -1,14 +1,12 @@
 // Share services
 
 import { db } from "app/db";
-import { todos } from "app/db/schema";
+import { todos, users } from "app/db/schema";
 import { count, eq } from "drizzle-orm";
 
 export async function deleteTodoById(id: number) {
   return db.delete(todos).where(eq(todos.id, id)).returning();
 }
-
-export const getTodoById = db.select().from(todos).where(eq(todos.id, 17));
 
 export async function statistic(completed: boolean) {
   const result = await db
@@ -16,4 +14,8 @@ export async function statistic(completed: boolean) {
     .from(todos)
     .where(eq(todos.completed, completed));
   return Number(result[0].count ?? 0);
+}
+
+export async function getUser(email:string) {
+  return db.select().from(users).where(eq(users.email, email))
 }
