@@ -4,9 +4,14 @@ import { ilike, eq, and, asc, desc, inArray } from "drizzle-orm";
 import { todos } from "app/db/schema";
 import { db } from "app/db";
 import { statistic } from "app/services/todoServices";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../auth/[...nextauth]/route";
 
 
 export async function GET(request: Request) {
+  const authSession = await getServerSession(authOptions)
+  const userID = authSession.user.id
+
   const { searchParams } = new URL(request.url);
 
   // get params
@@ -21,6 +26,7 @@ export async function GET(request: Request) {
   // if have kw or status => push 
   if (kw) whereClaus.push(ilike(todos.todo, `%${kw}%`));
   if (status) whereClaus.push(eq(todos.completed, status === "true"));
+  if (userID) whereClaus.push(eq(todos.userId, Number(userID)))
 
   // valid field for sort
   const validSortField = {
@@ -62,14 +68,16 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const authSession = await getServerSession(authOptions)
+  const userID = authSession.user.id
+
   const body = await request.json();
-  console.log(body);
 
   // Insert todo Values(...)
   const result = await db
     .insert(todos)
     .values({
-      userId: 1,
+      userId: Number(userID),
       todo: body.todo,
       completed: false,
       createdDate: new Date().toISOString(),

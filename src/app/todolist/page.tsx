@@ -47,8 +47,8 @@ interface TodoResponse {
 }
 
 export default function TodoPage() {
-  const { data: session } = useSession()
-  const userId = session?.user.id
+  const { data: session } = useSession();
+  const userId = session?.user.id;
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -164,13 +164,15 @@ export default function TodoPage() {
     mutationFn: deleteMultiTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["todos",
+        queryKey: [
+          "todos",
           inputSearch,
           selectStatus,
           sortOrder,
           sortField,
           currentPage,
-          pageSize,],
+          pageSize,
+        ],
       });
     },
   });
@@ -208,16 +210,16 @@ export default function TodoPage() {
 
   function Count() {
     let count = 0;
-    selectedId.forEach(x => count++)
-    return count
+    selectedId.forEach((x) => count++);
+    return count;
   }
   // Rendering
   return (
-    <div className="text-2x1 text-white bg-[#FFE794] h-full grid-cols-subgrid border-2">
+    <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen">
       {/* Header */}
-      <div className="basis-128 text-center mb-4 mr-50 ml-50 text-5xl bg-[#FFE794] text-[#050505] font-extrabold">
-        <ReceiptLongIcon />
+      <div className="basis-128 text-center mb-4 text-4xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold">
         YourTODO{userId}
+        <ReceiptLongIcon fontSize="large" className="" />
       </div>
       {/* Input và filter */}
       <div className="flex justify-center ml-100 gap-4 border bg-[#FEFFDF] mb-6 p-4 rounded-xl shadow w-278 text-black h-25">
@@ -253,17 +255,27 @@ export default function TodoPage() {
             unCompletedCount={data.unCompletedCount || 0}
           />
         )}
+      </div>
+      <div className="flex justify-end">
         <Badge>
-        <Button variant="outlined" startIcon={<Badge badgeContent={Count()} color="error"><DeleteIcon /></Badge>}
-          onClick={() => {
-            deleteMultiTodoMutation.mutate({
-              idArray: selectedId,
-            });
-            console.log(selectedId);
-          }}
-        >
-          Delete Selected Todo
-        </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            startIcon={
+              <Badge badgeContent={Count()} color="error">
+                <DeleteIcon />
+              </Badge>
+            }
+            onClick={() => {
+              deleteMultiTodoMutation.mutate({
+                idArray: selectedId,
+              });
+              console.log(selectedId);
+            }}
+            className="flex justify-items-end"
+          >
+            Delete Selected Todo
+          </Button>
         </Badge>
       </div>
       {/* Rendering */}

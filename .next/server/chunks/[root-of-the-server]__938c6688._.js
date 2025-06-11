@@ -222,7 +222,8 @@ var { g: global, __dirname, a: __turbopack_async_module__ } = __turbopack_contex
 __turbopack_async_module__(async (__turbopack_handle_async_dependencies__, __turbopack_async_result__) => { try {
 __turbopack_context__.s({
     "GET": (()=>handler),
-    "POST": (()=>handler)
+    "POST": (()=>handler),
+    "authOptions": (()=>authOptions)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$index$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/db/index.ts [app-route] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$db$2f$schema$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/app/db/schema.ts [app-route] (ecmascript)");
@@ -238,7 +239,7 @@ var __turbopack_async_dependencies__ = __turbopack_handle_async_dependencies__([
 ;
 ;
 ;
-const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
+const authOptions = {
     providers: [
         (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$providers$2f$credentials$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])({
             id: "credentials",
@@ -275,11 +276,6 @@ const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
     },
     callbacks: {
         async session ({ session, token }) {
-            console.log({
-                token
-            }, {
-                session
-            });
             if (session?.user) {
                 session.user.id = token.sub;
             }
@@ -289,7 +285,8 @@ const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules
             return "/todolist";
         }
     }
-});
+};
+const handler = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$index$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"])(authOptions);
 ;
 __turbopack_async_result__();
 } catch(e) { __turbopack_async_result__(e); } }, false);}),

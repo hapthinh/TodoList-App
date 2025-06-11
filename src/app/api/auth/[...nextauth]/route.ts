@@ -1,10 +1,10 @@
 import { db } from "app/db";
 import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
-import NextAuth, { Session } from "next-auth";
+import NextAuth, { NextAuthOptions, Session } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
       id: "credentials",
@@ -36,7 +36,6 @@ const handler = NextAuth({
   },
   callbacks: {
     async session({ session, token }) {
-      console.log({ token }, { session });
       if (session?.user) {
         session.user.id = token.sub;
       }
@@ -46,6 +45,8 @@ const handler = NextAuth({
       return "/todolist";
     },
   },
-});
+}
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST };
