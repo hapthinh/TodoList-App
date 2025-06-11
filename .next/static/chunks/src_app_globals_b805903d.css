@@ -52,7 +52,6 @@
     --color-indigo-200: oklch(87% .065 274.039);
     --color-indigo-400: oklch(67.3% .182 276.935);
     --color-indigo-500: oklch(58.5% .233 277.117);
-    --color-gray-100: oklch(96.7% .003 264.542);
     --color-gray-500: oklch(55.1% .027 264.364);
     --color-stone-200: oklch(92.3% .003 48.717);
     --color-black: #000;
@@ -454,20 +453,8 @@
     border-color: var(--color-indigo-400);
   }
 
-  .bg-\[\#\#FEFFDF\] {
-    background-color: # #feffdf;
-  }
-
-  .bg-\[\#C6C7DC\] {
-    background-color: #c6c7dc;
-  }
-
   .bg-\[\#FEFFDF\] {
     background-color: #feffdf;
-  }
-
-  .bg-\[\#FFD7A7\] {
-    background-color: #ffd7a7;
   }
 
   .bg-\[\#FFE794\] {
@@ -529,10 +516,6 @@
 
   .text-black {
     color: var(--color-black);
-  }
-
-  .text-gray-100 {
-    color: var(--color-gray-100);
   }
 
   .text-green-600 {

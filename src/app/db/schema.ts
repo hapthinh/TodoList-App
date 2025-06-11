@@ -1,4 +1,3 @@
-import { timeStamp } from "console";
 import { relations } from "drizzle-orm";
 import {
   serial,

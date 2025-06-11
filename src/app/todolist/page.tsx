@@ -6,7 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CheckSquare, X } from "@deemlol/next-icons";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -26,11 +26,14 @@ import {
   deteleTodo,
   updateTodoStatus,
   getTodos,
+  deleteMultiTodo,
 } from "../services/api";
 import { Todo } from "app/type/type";
 import AddTodo from "app/components/addTodo";
 import FilterTodo from "app/components/filterTodo";
 import Statistic from "app/components/statisticTodo";
+import Checkbox from "@mui/material/Checkbox";
+import Badge from "@mui/material/Badge";
 
 // type todo response
 interface TodoResponse {
@@ -60,6 +63,20 @@ export default function TodoPage1() {
   const [input, setInput] = useState("");
   const [editId, setEditId] = useState<number | null>(null);
   const [editTodo, setEditTodo] = useState("");
+  const [checked, setChecked] = useState<boolean[]>([]);
+  const [selectedId, setSelectedId] = useState<number[]>([]);
+
+  const handleOnChange = (idx) => {
+    const updateCheckedState = checked.map((item, index) =>
+      index === idx ? !item : item
+    );
+
+    setChecked(updateCheckedState);
+    const id = todos[idx].id;
+    const newSelectedId = [...selectedId];
+    if (updateCheckedState[idx]) newSelectedId.push(id);
+    setSelectedId(newSelectedId);
+  };
 
   // pageSize
   const pageSize = 10;
@@ -138,6 +155,22 @@ export default function TodoPage1() {
     },
   });
 
+  // delete multi todo
+  const deleteMultiTodoMutation = useMutation({
+    mutationFn: deleteMultiTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["todos",
+          inputSearch,
+          selectStatus,
+          sortOrder,
+          sortField,
+          currentPage,
+          pageSize,],
+      });
+    },
+  });
+
   // update todo
   const updateTodoMutation = useMutation({
     mutationFn: updateTodoStatus,
@@ -164,6 +197,16 @@ export default function TodoPage1() {
       }))
     : [];
 
+  useEffect(() => {
+    setChecked(new Array(todos.length).fill(false));
+    setSelectedId([]);
+  }, [todos.length]);
+
+  function Count() {
+    let count = 0;
+    selectedId.forEach(x => count++)
+    return count
+  }
   // Rendering
   return (
     <div className="text-2x1 text-white bg-[#FFE794] h-full grid-cols-subgrid border-2">
@@ -198,30 +241,36 @@ export default function TodoPage1() {
         />
       </div>
       {/* Statistic */}
-      {data && (
-        <Statistic
-          total={data.total || 0}
-          completedCount={data.completedCount || 0}
-          unCompletedCount={data.unCompletedCount || 0}
-        />
-      )}
+      <div>
+        {data && (
+          <Statistic
+            total={data.total || 0}
+            completedCount={data.completedCount || 0}
+            unCompletedCount={data.unCompletedCount || 0}
+          />
+        )}
+        <Badge>
+        <Button variant="outlined" startIcon={<Badge badgeContent={Count()} color="error"><DeleteIcon /></Badge>}
+          onClick={() => {
+            deleteMultiTodoMutation.mutate({
+              idArray: selectedId,
+            });
+            console.log(selectedId);
+          }}
+        >
+          Delete Selected Todo
+        </Button>
+        </Badge>
+      </div>
       {/* Rendering */}
       {isLoading ? (
-        <tr>
-          <td colSpan={3} className="text-center">
-            Loading...
-          </td>
-        </tr>
+        <div className="text-center">Loading...</div>
       ) : todos.length === 0 ? (
-        <tr>
-          <td colSpan={3} className="text-center">
-            No result
-          </td>
-        </tr>
+        <div className="text-center">No result</div>
       ) : (
         <div className="ml-20 mt-10">
           <Grid container spacing={4} columns={{ xs: 4, sm: 8, md: 12 }}>
-            {todos.map((todo) => (
+            {todos.map((todo, idx) => (
               <Grid size={3} key={todo.id} justifyContent={"space-between"}>
                 <Card
                   sx={{
@@ -231,6 +280,12 @@ export default function TodoPage1() {
                     boxShadow: 10,
                   }}
                 >
+                  <Checkbox
+                    size="small"
+                    color="success"
+                    checked={!!checked[idx]}
+                    onChange={() => handleOnChange(idx)}
+                  ></Checkbox>
                   <CardContent>
                     <Typography align="center" variant="h5">
                       {editId === todo.id ? (

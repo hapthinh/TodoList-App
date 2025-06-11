@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 
 import { db } from "app/db";
 import { todos } from "app/db/schema";
-import { deleteTodoById } from "app/services/todoServices";
+import { deleteTodoById, getTodoById } from "app/services/todoServices";
+import { stringify } from "querystring";
 
 // Delete todo by id
 export async function DELETE(request: Request) {
@@ -34,4 +35,12 @@ export async function PATCH(request: Request) {
     .returning();
 
   return NextResponse.json(result[0]);
+}
+
+export async function GET(request: Request) {
+  const url = new URL(request.url)
+  const id = Number(url.pathname.split("/").pop())
+  const result = await db.select().from(todos).where(eq(todos.id,id));
+  console.log(result)
+  return NextResponse.json(result)
 }

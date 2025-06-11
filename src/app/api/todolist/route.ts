@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { ilike, eq, and, asc, desc, sql } from "drizzle-orm";
+import { ilike, eq, and, asc, desc, sql, inArray } from "drizzle-orm";
 
 import { todos } from "app/db/schema";
 import { db } from "app/db";
 import { statistic } from "app/services/todoServices";
 import { Todo, Todos } from "app/type/type";
+import { error } from "console";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -79,12 +80,16 @@ export async function POST(request: Request) {
   return NextResponse.json(result[0]);
 }
 
+// Delete multi todo
 export async function DELETE(request: Request) {
-  const exampleKey = [17, 18 , 19 , 30]
+  
+  // get arr id from body request
+  const arr = await request.json()
 
-  const result = await db.delete(todos).where(sql`${todos.id} IN (${exampleKey})`).returning();
+  // todo.id = arr[...]
+  const result = await db.delete(todos).where(inArray(todos.id,arr)).returning();
 
-  return NextResponse.json(result[0])
+  return NextResponse.json(result)
 }
 
 

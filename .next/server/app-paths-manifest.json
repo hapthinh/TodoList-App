@@ -1,3 +1,5 @@
 {
-  "/api/todolist/route": "app/api/todolist/route.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/todolist/route": "app/api/todolist/route.js",
+  "/page": "app/page.js"
 }
