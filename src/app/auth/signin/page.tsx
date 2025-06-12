@@ -13,6 +13,7 @@ export default function SignIn() {
       redirect: true,
       email,
       password,
+      callbackUrl: "/todolist",
     }).then((response) => console.log(response));
   };
 

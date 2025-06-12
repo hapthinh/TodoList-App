@@ -21,7 +21,7 @@ const initState: TodoState = {
   items: [],
 };
 
-var idTodo = 0;
+let idTodo = 0;
 const TodoSlice = createSlice({
   name: "todoSlice",
   initialState: initState,

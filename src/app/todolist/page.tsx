@@ -20,6 +20,9 @@ import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import MuiPagination from "app/components/pagination";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Checkbox from "@mui/material/Checkbox";
+import Badge from "@mui/material/Badge";
+import { signOut, useSession } from "next-auth/react";
 
 import {
   postTodo,
@@ -28,13 +31,10 @@ import {
   getTodos,
   deleteMultiTodo,
 } from "../services/api";
-import { Todo, User } from "app/types/type";
+import { Todo } from "app/types/type";
 import AddTodo from "app/components/addTodo";
 import FilterTodo from "app/components/filterTodo";
 import Statistic from "app/components/statisticTodo";
-import Checkbox from "@mui/material/Checkbox";
-import Badge from "@mui/material/Badge";
-import { useSession } from "next-auth/react";
 
 // type todo response
 interface TodoResponse {
@@ -196,7 +196,7 @@ export default function TodoPage() {
   });
 
   // Get Data Todo
-  let todos: Todo[] = Array.isArray(data?.todos)
+  const todos: Todo[] = Array.isArray(data?.todos)
     ? data.todos.map((todo: Todo) => ({
         ...todo,
         createdDate: todo.createdDate,
@@ -208,9 +208,10 @@ export default function TodoPage() {
     setSelectedId([]);
   }, [todos.length]);
 
+  // count selected id
   function Count() {
     let count = 0;
-    selectedId.forEach((x) => count++);
+    selectedId.forEach(() => count++);
     return count;
   }
   // Rendering
@@ -220,6 +221,7 @@ export default function TodoPage() {
       <div className="basis-128 text-center mb-4 text-4xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold">
         YourTODO{userId}
         <ReceiptLongIcon fontSize="large" className="" />
+        <button onClick={() => signOut({redirect: false,callbackUrl: "/"})}>Sign Out</button>
       </div>
       {/* Input và filter */}
       <div className="flex justify-center ml-100 gap-4 border bg-[#FEFFDF] mb-6 p-4 rounded-xl shadow w-278 text-black h-25">

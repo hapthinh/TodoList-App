@@ -269,7 +269,8 @@ const authOptions = {
     ],
     secret: process.env.AUTH_SECRET,
     pages: {
-        signIn: "/auth/signin"
+        signIn: "/auth/signin",
+        signOut: "/auth/signout"
     },
     session: {
         strategy: "jwt"
@@ -280,9 +281,6 @@ const authOptions = {
                 session.user.id = token.sub;
             }
             return session;
-        },
-        async redirect () {
-            return "/todolist";
         }
     }
 };

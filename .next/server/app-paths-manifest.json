@@ -2,7 +2,5 @@
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/api/todolist/[id]/route": "app/api/todolist/[id]/route.js",
   "/api/todolist/route": "app/api/todolist/route.js",
-  "/auth/signin/page": "app/auth/signin/page.js",
-  "/page": "app/page.js",
-  "/todolist/page": "app/todolist/page.js"
+  "/page": "app/page.js"
 }

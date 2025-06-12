@@ -1,7 +1,7 @@
 import { db } from "app/db";
 import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
-import NextAuth, { NextAuthOptions, Session } from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
@@ -30,6 +30,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/auth/signin",
+    signOut: "/auth/signout"
   },
   session: {
     strategy: "jwt",
@@ -41,9 +42,10 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    async redirect() {
-      return "/todolist";
-    },
+    //async redirect({url, baseUrl}){
+      //const frontendUrl = process.env.NEXT_PUBLIC_URL || baseUrl
+      //if(url.startsWith("/")) return `${frontendUrl}/${url}`
+    //}
   },
 }
 

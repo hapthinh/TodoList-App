@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "app/db";
-import { todos, users } from "app/db/schema";
+import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
