@@ -11,7 +11,6 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { CheckSquare, X } from "@deemlol/next-icons";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
-import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
@@ -19,10 +18,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import MuiPagination from "app/components/pagination";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import EditOutlinedTwoToneIcon from "@mui/icons-material/EditOutlined";
 import Checkbox from "@mui/material/Checkbox";
 import Badge from "@mui/material/Badge";
 import { signOut, useSession } from "next-auth/react";
+import LogoutIcon from "@mui/icons-material/Logout";
+import Image from "next/image";
 
 import {
   postTodo,
@@ -35,6 +36,9 @@ import { Todo } from "app/types/type";
 import AddTodo from "app/components/addTodo";
 import FilterTodo from "app/components/filterTodo";
 import Statistic from "app/components/statisticTodo";
+import SortOrder from "app/components/sortOrder";
+import SelectedPageSize from "app/components/selectedPageSize";
+import SelectStatus from "app/components/selectBox";
 
 // type todo response
 interface TodoResponse {
@@ -53,6 +57,8 @@ export default function TodoPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const [pageSize, setPageSize] = useState(8);
+
   // get params
   const inputSearch = searchParams.get("kw") || "";
   const selectStatus = searchParams.get("status") || "";
@@ -61,6 +67,7 @@ export default function TodoPage() {
   const sortField =
     (searchParams.get("sortField") as "todo" | "createdDate" | "status") ||
     "status";
+  const limit = Number(searchParams.get("limit")) || pageSize;
 
   // set state
   const [searchInput, setSearchInput] = useState(inputSearch);
@@ -82,9 +89,6 @@ export default function TodoPage() {
     setSelectedId(newSelectedId);
   };
 
-  // pageSize
-  const pageSize = 10;
-
   const queryClient = useQueryClient();
 
   // search keyword
@@ -104,7 +108,7 @@ export default function TodoPage() {
       sortOrder,
       sortField,
       currentPage,
-      pageSize,
+      limit,
     ],
     queryFn: async () => {
       const result = await getTodos({
@@ -113,7 +117,7 @@ export default function TodoPage() {
         order: sortOrder,
         sortField: sortField,
         currentPage: currentPage,
-        pageSize: pageSize,
+        pageSize: limit,
       });
       console.log("QueryFn result:", result);
       return result;
@@ -135,7 +139,7 @@ export default function TodoPage() {
           sortOrder,
           sortField,
           currentPage,
-          pageSize,
+          limit,
         ],
       });
     },
@@ -153,7 +157,7 @@ export default function TodoPage() {
           sortOrder,
           sortField,
           currentPage,
-          pageSize,
+          limit,
         ],
       });
     },
@@ -171,7 +175,7 @@ export default function TodoPage() {
           sortOrder,
           sortField,
           currentPage,
-          pageSize,
+          limit,
         ],
       });
     },
@@ -183,13 +187,7 @@ export default function TodoPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
-          "todos",
-          inputSearch,
-          selectStatus,
-          sortOrder,
-          sortField,
-          currentPage,
-          pageSize,
+          "todos"
         ],
       });
     },
@@ -217,68 +215,94 @@ export default function TodoPage() {
   // Rendering
   return (
     <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen">
-      {/* Header */}
-      <div className="basis-128 text-center mb-4 text-4xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold">
-        YourTODO{userId}
-        <ReceiptLongIcon fontSize="large" className="" />
-        <button onClick={() => signOut({redirect: false,callbackUrl: "/"})}>Sign Out</button>
+      <div className="flex justify-end">
+        <button
+          className="text-black hover:scale-150 text-3xl"
+          onClick={() => signOut({ redirect: false, callbackUrl: "/" })}
+        >
+          <LogoutIcon fontSize="large" />
+        </button>
       </div>
+      {/* Header */}
+      <div className="basis-128 text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
+        <Image src="/todo.svg" alt="todo" width={40} height={40} />
+        <p className="ml-2">YourTODO</p>
+      </div>
+
       {/* Input và filter */}
-      <div className="flex justify-center ml-100 gap-4 border bg-[#FEFFDF] mb-6 p-4 rounded-xl shadow w-278 text-black h-25">
-        {/* Add todo */}
-        <AddTodo
-          input={input}
-          setInput={setInput}
-          onAdd={() => {
-            if (input.trim()) {
-              postTodoMutation.mutate({
-                todo: input,
-              });
-              setInput("");
-            }
-          }}
-        />
-        {/* Search & Filter Status*/}
-        <FilterTodo
-          searchInput={searchInput}
-          setSearchInput={setSearchInput}
-          handleSearch={handleSearch}
-          selectStatus={selectStatus}
-          searchParams={searchParams}
-          router={router}
-        />
+      <div className="flex justify-items-center-safe ml-100 gap-4 mb-6 p-4 shadow w-280 text-black h-25 rounded-xl bg-[#eff1a0]">
+        <div className="w-100 bg-[#FEFFDF] flex-1/3 rounded-xl">
+          {/* Add todo */}
+          <AddTodo
+            input={input}
+            setInput={setInput}
+            onAdd={() => {
+              if (input.trim()) {
+                postTodoMutation.mutate({
+                  todo: input,
+                });
+                setInput("");
+              }
+            }}
+          />
+          {/* Search & Filter Status*/}
+        </div>
+        <div className="flex-1/3 bg-[#f6f7ee] rounded-xl flex justify-center">
+          <FilterTodo
+            searchInput={searchInput}
+            setSearchInput={setSearchInput}
+            handleSearch={handleSearch}
+          />
+        </div>
+        <div className="flex flex-1/3 justify-center bg-[#FEFFDF] rounded-xl">
+          <SelectStatus
+            selectStatus={selectStatus}
+            searchParams={searchParams}
+            router={router}
+          />
+          <SortOrder
+            selectedOrder={sortOrder}
+            searchParams={searchParams}
+            router={router}
+          />
+          <SelectedPageSize
+            SelectedPageSize={pageSize}
+            onChangePageSize={setPageSize}
+          />
+        </div>
       </div>
       {/* Statistic */}
       <div>
         {data && (
           <Statistic
-            total={data.total || 0}
             completedCount={data.completedCount || 0}
             unCompletedCount={data.unCompletedCount || 0}
           />
         )}
       </div>
       <div className="flex justify-end">
-        <Badge>
-          <Button
-            variant="outlined"
-            color="error"
-            startIcon={
-              <Badge badgeContent={Count()} color="error">
-                <DeleteIcon />
-              </Badge>
-            }
-            onClick={() => {
-              deleteMultiTodoMutation.mutate({
-                idArray: selectedId,
-              });
-              console.log(selectedId);
-            }}
-            className="flex justify-items-end"
-          >
-            Delete Selected Todo
-          </Button>
-        </Badge>
+        <div>
+          <Badge>
+            <Button
+              variant="outlined"
+              color="primary"
+              startIcon={
+                <Badge badgeContent={Count()} color="error">
+                  <DeleteIcon />
+                </Badge>
+              }
+              onClick={() => {
+                deleteMultiTodoMutation.mutate({
+                  idArray: selectedId,
+                });
+                console.log(selectedId);
+              }}
+              className="flex justify-items-end"
+            >
+              Delete Selected Todo
+            </Button>
+          </Badge>
+        </div>
       </div>
       {/* Rendering */}
       {isLoading ? (
@@ -298,12 +322,23 @@ export default function TodoPage() {
                     boxShadow: 10,
                   }}
                 >
-                  <Checkbox
-                    size="small"
-                    color="success"
-                    checked={!!checked[idx]}
-                    onChange={() => handleOnChange(idx)}
-                  ></Checkbox>
+                  <div className="flex justify-between">
+                    <div>
+                      <Checkbox
+                        size="small"
+                        color="success"
+                        checked={!!checked[idx]}
+                        onChange={() => handleOnChange(idx)}
+                      ></Checkbox>
+                    </div>
+                    <div></div>
+                    <div className="text-2xl">
+                      {todo.createdDate
+                        ? new Date(todo.createdDate).toLocaleDateString("vi-VN")
+                        : ""}
+                    </div>
+                  </div>
+
                   <CardContent>
                     <Typography align="center" variant="h5">
                       {editId === todo.id ? (
@@ -324,12 +359,13 @@ export default function TodoPage() {
                         <div>
                           {todo.todo}
                           <button
+                            className="ml-1"
                             onClick={() => {
                               setEditId(todo.id);
                               setEditTodo(todo.todo);
                             }}
                           >
-                            <EditOutlinedIcon />
+                            <EditOutlinedTwoToneIcon color="action" />
                           </button>
                         </div>
                       )}
@@ -345,11 +381,7 @@ export default function TodoPage() {
                         </>
                       )}
                     </Typography>
-                    <Typography>
-                      {todo.createdDate
-                        ? new Date(todo.createdDate).toLocaleDateString("vi-VN")
-                        : ""}
-                    </Typography>
+                    <Typography></Typography>
                   </CardContent>
                   <CardActions
                     sx={{
@@ -388,7 +420,7 @@ export default function TodoPage() {
         <MuiPagination
           currentPage={currentPage}
           total={data.total}
-          pageSize={pageSize}
+          pageSize={limit}
           router={router}
           searchParams={searchParams}
         />

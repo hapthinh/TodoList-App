@@ -8,7 +8,7 @@ export default function MuiPagination({
   searchParams,
 }) {
   const totalPage = Math.ceil(total / pageSize);
-
+  console.log(currentPage, total, pageSize)
   const handleChange = (event, value) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("page", String(value));
