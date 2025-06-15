@@ -8,6 +8,10 @@ import {
 } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+
+// icons & layout
 import { CheckSquare, X } from "@deemlol/next-icons";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
@@ -17,13 +21,10 @@ import Typography from "@mui/material/Typography";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import MuiPagination from "app/components/pagination";
 import EditOutlinedTwoToneIcon from "@mui/icons-material/EditOutlined";
 import Checkbox from "@mui/material/Checkbox";
 import Badge from "@mui/material/Badge";
-import { signOut, useSession } from "next-auth/react";
 import LogoutIcon from "@mui/icons-material/Logout";
-import Image from "next/image";
 
 import {
   postTodo,
@@ -39,6 +40,7 @@ import Statistic from "app/components/statisticTodo";
 import SortOrder from "app/components/sortOrder";
 import SelectedPageSize from "app/components/selectedPageSize";
 import SelectStatus from "app/components/selectBox";
+import MuiPagination from "app/components/pagination";
 
 // type todo response
 interface TodoResponse {
@@ -51,15 +53,22 @@ interface TodoResponse {
 }
 
 export default function TodoPage() {
-  const { data: session } = useSession();
-  const userId = session?.user.id;
-
-  const searchParams = useSearchParams();
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryClient = useQueryClient();
 
+  // check status session
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
+
+  // page size
   const [pageSize, setPageSize] = useState(8);
 
-  // get params
+  // get params from url
   const inputSearch = searchParams.get("kw") || "";
   const selectStatus = searchParams.get("status") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
@@ -77,19 +86,23 @@ export default function TodoPage() {
   const [checked, setChecked] = useState<boolean[]>([]);
   const [selectedId, setSelectedId] = useState<number[]>([]);
 
+  // handle selected Todo
   const handleOnChange = (idx) => {
+    // if index = idx => item !
     const updateCheckedState = checked.map((item, index) =>
       index === idx ? !item : item
     );
 
+    // setchecked = arr update..
     setChecked(updateCheckedState);
+    // get id
     const id = todos[idx].id;
-    const newSelectedId = [...selectedId];
+    // get ... arr num
+    let newSelectedId = [...selectedId];
     if (updateCheckedState[idx]) newSelectedId.push(id);
+    else newSelectedId = newSelectedId.filter((item) => item !== id);
     setSelectedId(newSelectedId);
   };
-
-  const queryClient = useQueryClient();
 
   // search keyword
   const handleSearch = (value: string) => {
@@ -97,6 +110,15 @@ export default function TodoPage() {
     params.set("kw", value);
     params.set("page", "1");
     router.push(`?${params.toString()}`);
+  };
+
+  // handle change pagesize => set page = 1
+  const handleChangePageSize = (newPageSize: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("limit", String(newPageSize));
+    params.set("page", "1");
+    router.push(`?${params.toString()}`);
+    setPageSize(newPageSize);
   };
 
   // Get all Todo or get Todo by keyword or get Todo by status
@@ -163,9 +185,29 @@ export default function TodoPage() {
     },
   });
 
-  // delete multi todo
+  // delete selected todo
   const deleteMultiTodoMutation = useMutation({
     mutationFn: deleteMultiTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "todos",
+          inputSearch,
+          selectStatus,
+          sortOrder,
+          sortField,
+          currentPage,
+          limit,
+        ],
+      });
+      setChecked(new Array(todos.length).fill(false));
+      setSelectedId([]);
+    },
+  });
+
+  // update todo
+  const updateTodoMutation = useMutation({
+    mutationFn: updateTodoStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
@@ -181,18 +223,6 @@ export default function TodoPage() {
     },
   });
 
-  // update todo
-  const updateTodoMutation = useMutation({
-    mutationFn: updateTodoStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          "todos"
-        ],
-      });
-    },
-  });
-
   // Get Data Todo
   const todos: Todo[] = Array.isArray(data?.todos)
     ? data.todos.map((todo: Todo) => ({
@@ -201,6 +231,7 @@ export default function TodoPage() {
       }))
     : [];
 
+  // if todos.length change =>
   useEffect(() => {
     setChecked(new Array(todos.length).fill(false));
     setSelectedId([]);
@@ -208,10 +239,9 @@ export default function TodoPage() {
 
   // count selected id
   function Count() {
-    let count = 0;
-    selectedId.forEach(() => count++);
-    return count;
+    return checked.filter(Boolean).length;
   }
+
   // Rendering
   return (
     <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen">
@@ -245,9 +275,9 @@ export default function TodoPage() {
               }
             }}
           />
-          {/* Search & Filter Status*/}
         </div>
         <div className="flex-1/3 bg-[#f6f7ee] rounded-xl flex justify-center">
+          {/* Search keyword */}
           <FilterTodo
             searchInput={searchInput}
             setSearchInput={setSearchInput}
@@ -255,6 +285,7 @@ export default function TodoPage() {
           />
         </div>
         <div className="flex flex-1/3 justify-center bg-[#FEFFDF] rounded-xl">
+          {/* Filter */}
           <SelectStatus
             selectStatus={selectStatus}
             searchParams={searchParams}
@@ -267,7 +298,7 @@ export default function TodoPage() {
           />
           <SelectedPageSize
             SelectedPageSize={pageSize}
-            onChangePageSize={setPageSize}
+            onChangePageSize={handleChangePageSize}
           />
         </div>
       </div>
@@ -281,6 +312,7 @@ export default function TodoPage() {
         )}
       </div>
       <div className="flex justify-end">
+        {/* Delete Selected Todo Btn */}
         <div>
           <Badge>
             <Button
@@ -298,6 +330,7 @@ export default function TodoPage() {
                 console.log(selectedId);
               }}
               className="flex justify-items-end"
+              disabled={selectedId.length === 0}
             >
               Delete Selected Todo
             </Button>
@@ -311,6 +344,7 @@ export default function TodoPage() {
         <div className="text-center">No result</div>
       ) : (
         <div className="ml-20 mt-10">
+          {/* Render grid card */}
           <Grid container spacing={4} columns={{ xs: 4, sm: 8, md: 12 }}>
             {todos.map((todo, idx) => (
               <Grid size={3} key={todo.id} justifyContent={"space-between"}>
@@ -338,7 +372,7 @@ export default function TodoPage() {
                         : ""}
                     </div>
                   </div>
-
+                  {/* Todo Content */}
                   <CardContent>
                     <Typography align="center" variant="h5">
                       {editId === todo.id ? (
@@ -350,7 +384,7 @@ export default function TodoPage() {
                             if (e.key === "Enter") {
                               updateTodoMutation.mutate({
                                 id: todo.id,
-                                todo: todo.todo,
+                                todo: editTodo,
                               });
                             }
                           }}
@@ -383,6 +417,7 @@ export default function TodoPage() {
                     </Typography>
                     <Typography></Typography>
                   </CardContent>
+                  {/* Todo Actions (Mark Done & Delete) */}
                   <CardActions
                     sx={{
                       backgroundColor: "#fafafa",

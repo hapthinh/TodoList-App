@@ -1,7 +1,7 @@
 //file API TODOLIST {GET, POST, DELETE, PATCH} CRUD
 
 // Domain API
-const API = "http://localhost:3001/api/todolist";
+const API = "http://localhost:3000/api/todolist";
 
 // API GET TODO
 export async function getTodos({
@@ -81,20 +81,20 @@ export async function updateTodoStatus({
   return res.json();
 }
 
-export async function deleteMultiTodo({idArray}: {idArray: any[]}) {
+export async function deleteMultiTodo({ idArray }: { idArray: any[] }) {
   const res = await fetch(`${API}`, {
     method: "DELETE",
-    headers: {"Content-type": "application/json"},
-    body: JSON.stringify(idArray)
+    headers: { "Content-type": "application/json" },
+    body: JSON.stringify(idArray),
   });
-  
+
   return res.json();
 }
 
-export async function getTodobyId(id:number) {
+export async function getTodobyId(id: number) {
   const res = await fetch(`${API}/${id}`, {
-    method: 'GET',
-  })
-  console.log(res.json())
-  return res.json()
+    method: "GET",
+  });
+  console.log(res.json());
+  return res.json();
 }

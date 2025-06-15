@@ -1,13 +1,6 @@
-import { render, screen } from "@testing-library/react";
 import React from "react";
+import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-
-jest.mock("@headlessui/react", () => ({
-  Combobox: ({ children }: any) => <div>{children}</div>,
-  ComboboxInput: (props: any) => <input {...props} />,
-  ComboboxOption: (props: any) => <div {...props} />,
-  ComboboxOptions: ({ children }: any) => <div>{children}</div>,
-}));
 
 jest.mock("@deemlol/next-icons", () => ({
   CheckSquare: () => <span>Check Square</span>,
@@ -48,31 +41,36 @@ jest.mock("@tanstack/react-query", () => ({
 }));
 
 import TodoPage from "app/todolist/page";
+import { SessionProvider } from "next-auth/react";
+
+function wrapper(ui: React.ReactElement) {
+  return render(<SessionProvider session={null}>{ui}</SessionProvider>);
+}
 
 // TEST RENDER BUTTON
 describe("TodoPage UI", () => {
   it("render Them Todo Button", () => {
-    render(<TodoPage />),
+    wrapper(<TodoPage />),
       expect(screen.getByText("Thêm Todo")).toBeInTheDocument();
   });
 });
 
 describe("TodoPage UI", () => {
   it("render Pagination button", () => {
-    render(<TodoPage />),
+    wrapper(<TodoPage />),
       expect(screen.getByText("Trang sau")).toBeInTheDocument();
   });
 });
 
 describe("TodoPage UI", () => {
   it("render Delete Btn", () => {
-    render(<TodoPage />), expect(screen.getByText("Xóa")).toBeInTheDocument();
+    wrapper(<TodoPage />), expect(screen.getByText("Xóa")).toBeInTheDocument();
   });
 });
 
 describe("TodoPage UI", () => {
   it("render Change btn", () => {
-    render(<TodoPage />),
+    wrapper(<TodoPage />),
       expect(screen.getByText("Đổi trạng thái")).toBeInTheDocument();
   });
 });
@@ -80,7 +78,7 @@ describe("TodoPage UI", () => {
 // TEST RENDER INPUT
 describe("TodoPage UI", () => {
   it("render search input", () => {
-    render(<TodoPage />),
+    wrapper(<TodoPage />),
       expect(
         screen.getByPlaceholderText("Tìm theo từ khóa")
       ).toBeInTheDocument();

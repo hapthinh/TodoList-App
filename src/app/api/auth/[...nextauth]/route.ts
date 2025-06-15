@@ -1,8 +1,9 @@
-import { db } from "app/db";
-import { users } from "app/db/schema";
 import { eq } from "drizzle-orm";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+
+import { db } from "app/db";
+import { users } from "app/db/schema";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,7 +31,7 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.AUTH_SECRET,
   pages: {
     signIn: "/auth/signin",
-    signOut: "/auth/signout"
+    signOut: "/auth/signout",
   },
   session: {
     strategy: "jwt",
@@ -42,13 +43,9 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
-    //async redirect({url, baseUrl}){
-      //const frontendUrl = process.env.NEXT_PUBLIC_URL || baseUrl
-      //if(url.startsWith("/")) return `${frontendUrl}/${url}`
-    //}
   },
-}
+};
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
