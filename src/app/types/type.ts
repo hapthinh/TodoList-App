@@ -16,8 +16,3 @@ export type User = {
   name?: string,
   email?: string
 }
-
-export interface UpdateData {
-  todo? : string,
-  completed? : boolean
-}
