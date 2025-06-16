@@ -41,6 +41,7 @@ import SortOrder from "app/components/sortOrder";
 import SelectedPageSize from "app/components/selectedPageSize";
 import SelectStatus from "app/components/selectBox";
 import MuiPagination from "app/components/pagination";
+import { usepostTodoMutation, useDeleteSelectedTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from "app/lib/queries/mutations";
 
 // type todo response
 interface TodoResponse {
@@ -144,7 +145,6 @@ export default function TodoPage() {
         currentPage: currentPage,
         pageSize: limit,
       });
-      console.log("QueryFn result:", result);
       return result;
     },
     staleTime: 30 * 1000,
@@ -152,81 +152,15 @@ export default function TodoPage() {
     placeholderData: keepPreviousData,
   });
 
-  // Add todo
-  const postTodoMutation = useMutation({
-    mutationFn: postTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          "todos",
-          inputSearch,
-          selectStatus,
-          sortOrder,
-          sortField,
-          currentPage,
-          limit,
-        ],
-      });
-    },
-  });
-
-  // delete todo
-  const deleteTodoMutation = useMutation({
-    mutationFn: deteleTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          "todos",
-          inputSearch,
-          selectStatus,
-          sortOrder,
-          sortField,
-          currentPage,
-          limit,
-        ],
-      });
-    },
-  });
-
-  // delete selected todo
-  const deleteMultiTodoMutation = useMutation({
-    mutationFn: deleteMultiTodo,
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          "todos",
-          inputSearch,
-          selectStatus,
-          sortOrder,
-          sortField,
-          currentPage,
-          limit,
-        ],
-      });
-      setChecked(new Array(todos.length).fill(false));
-      setSelectedId([]);
-    },
-  });
-
-  // update todo
-  const updateTodoMutation = useMutation({
-    mutationFn:({id, completed, todo}:{id: number, completed? : boolean, todo?: string}) => updateTodoStatus({id, completed, todo}),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: [
-          "todos",
-          inputSearch,
-          selectStatus,
-          sortOrder,
-          sortField,
-          currentPage,
-          limit,
-        ],
-      });
-      setEditId(null);
-      setEditTodo("") 
-    },
-  });
+  const queryKey = [
+      "todos",
+      inputSearch,
+      selectStatus,
+      sortOrder,
+      sortField,
+      currentPage,
+      limit,
+    ]
 
   // Get Data Todo
   const todos: Todo[] = Array.isArray(data?.todos)
@@ -235,6 +169,12 @@ export default function TodoPage() {
         createdDate: todo.createdDate,
       }))
     : [];
+
+  // Mutations
+  const postTodoMutation = usepostTodoMutation(queryKey)
+  const deleteTodoMutation = useDeleteTodoMutation(queryKey)
+  const updateTodoMutation = useUpdateTodoMutation(queryKey, setEditId, setEditTodo)
+  const deleteMultiTodoMutation = useDeleteSelectedTodoMutation(queryKey, setChecked, setSelectedId,todos.length)
 
   // if todos.length change =>
   useEffect(() => {
@@ -334,7 +274,6 @@ export default function TodoPage() {
                 deleteMultiTodoMutation.mutate({
                   idArray: selectedId,
                 });
-                console.log(selectedId);
               }}
               className="flex justify-items-end"
               disabled={selectedId.length === 0}
