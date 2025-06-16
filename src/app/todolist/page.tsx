@@ -53,11 +53,12 @@ interface TodoResponse {
 }
 
 export default function TodoPage() {
-  const { data: session, status } = useSession();
+  const { data : session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
 
+  console.log(session)
   // check status session
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -105,11 +106,13 @@ export default function TodoPage() {
   };
 
   // search keyword
-  const handleSearch = (value: string) => {
+  const handleSearch = (event, value: string) => {
+    event.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
     params.set("kw", value);
     params.set("page", "1");
     router.push(`?${params.toString()}`);
+    setSearchInput("");
   };
 
   // handle change pagesize => set page = 1
@@ -207,7 +210,7 @@ export default function TodoPage() {
 
   // update todo
   const updateTodoMutation = useMutation({
-    mutationFn: updateTodoStatus,
+    mutationFn:({id, completed, todo}:{id: number, completed? : boolean, todo?: string}) => updateTodoStatus({id, completed, todo}),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [
@@ -220,6 +223,8 @@ export default function TodoPage() {
           limit,
         ],
       });
+      setEditId(null);
+      setEditTodo("") 
     },
   });
 
@@ -276,7 +281,7 @@ export default function TodoPage() {
             }}
           />
         </div>
-        <div className="flex-1/3 bg-[#f6f7ee] rounded-xl flex justify-center">
+        <div className="flex-1/3 bg-[#FEFFDF] rounded-xl flex justify-center">
           {/* Search keyword */}
           <FilterTodo
             searchInput={searchInput}
@@ -285,6 +290,7 @@ export default function TodoPage() {
           />
         </div>
         <div className="flex flex-1/3 justify-center bg-[#FEFFDF] rounded-xl">
+          <div className="flex flex-row mt-0.5">
           {/* Filter */}
           <SelectStatus
             selectStatus={selectStatus}
@@ -300,6 +306,7 @@ export default function TodoPage() {
             SelectedPageSize={pageSize}
             onChangePageSize={handleChangePageSize}
           />
+          </div>
         </div>
       </div>
       {/* Statistic */}
@@ -345,7 +352,9 @@ export default function TodoPage() {
       ) : (
         <div className="ml-20 mt-10">
           {/* Render grid card */}
-          <Grid container spacing={4} columns={{ xs: 4, sm: 8, md: 12 }}>
+          <Grid container spacing={4} sx={{ 
+            justifyContent: 'space-between',
+          }} columns={{ xs: 4, sm: 8, md: 12 }}>
             {todos.map((todo, idx) => (
               <Grid size={3} key={todo.id} justifyContent={"space-between"}>
                 <Card
@@ -366,7 +375,7 @@ export default function TodoPage() {
                       ></Checkbox>
                     </div>
                     <div></div>
-                    <div className="text-2xl">
+                    <div className="text-2xl mr-2">
                       {todo.createdDate
                         ? new Date(todo.createdDate).toLocaleDateString("vi-VN")
                         : ""}
@@ -427,10 +436,12 @@ export default function TodoPage() {
                     <Button
                       disabled={todo.completed}
                       onClick={() =>
-                        updateTodoMutation.mutate({
-                          id: todo.id,
-                          completed: !todo.completed,
-                        })
+                        {
+                          updateTodoMutation.mutate({
+                            id: todo.id,
+                            completed: !todo.completed,
+                          });
+                        }
                       }
                     >
                       <DoneIcon />
@@ -450,6 +461,7 @@ export default function TodoPage() {
           </Grid>
         </div>
       )}
+
       {/* Pagination */}
       {data && (
         <MuiPagination

@@ -15,6 +15,14 @@
   "headers": [],
   "dynamicRoutes": [
     {
+      "page": "/api/auth/[...nextauth]",
+      "regex": "^/api/auth/(.+?)(?:/)?$",
+      "routeKeys": {
+        "nxtPnextauth": "nxtPnextauth"
+      },
+      "namedRegex": "^/api/auth/(?<nxtPnextauth>.+?)(?:/)?$"
+    },
+    {
       "page": "/api/todolist/[id]",
       "regex": "^/api/todolist/([^/]+?)(?:/)?$",
       "routeKeys": {
@@ -23,12 +31,12 @@
       "namedRegex": "^/api/todolist/(?<nxtPid>[^/]+?)(?:/)?$"
     },
     {
-      "page": "/todo/[id]",
-      "regex": "^/todo/([^/]+?)(?:/)?$",
+      "page": "/todolist/[id]",
+      "regex": "^/todolist/([^/]+?)(?:/)?$",
       "routeKeys": {
         "nxtPid": "nxtPid"
       },
-      "namedRegex": "^/todo/(?<nxtPid>[^/]+?)(?:/)?$"
+      "namedRegex": "^/todolist/(?<nxtPid>[^/]+?)(?:/)?$"
     }
   ],
   "staticRoutes": [
@@ -45,10 +53,28 @@
       "namedRegex": "^/_not\\-found(?:/)?$"
     },
     {
+      "page": "/auth/signin",
+      "regex": "^/auth/signin(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/signin(?:/)?$"
+    },
+    {
+      "page": "/auth/signout",
+      "regex": "^/auth/signout(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/auth/signout(?:/)?$"
+    },
+    {
       "page": "/favicon.ico",
       "regex": "^/favicon\\.ico(?:/)?$",
       "routeKeys": {},
       "namedRegex": "^/favicon\\.ico(?:/)?$"
+    },
+    {
+      "page": "/todolist",
+      "regex": "^/todolist(?:/)?$",
+      "routeKeys": {},
+      "namedRegex": "^/todolist(?:/)?$"
     }
   ],
   "dataRoutes": [],

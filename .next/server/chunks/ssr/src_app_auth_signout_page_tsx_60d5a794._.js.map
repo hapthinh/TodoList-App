@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Toby/TodoList/TodoList-App/src/app/auth/signout/page.tsx"],"sourcesContent":["\"use client\";\r\n\r\nimport { signOut } from \"next-auth/react\";\r\n\r\nexport default function SignOut() {\r\n  return (\r\n    <button\r\n      className=\"border-red-50 bg-amber-600\"\r\n      onClick={() => signOut({callbackUrl: \"localhost:3000/auth/signin\"})}\r\n    >\r\n      Sign Out\r\n    </button>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;AAEA;AAFA;;;AAIe,SAAS;IACtB,qBACE,8OAAC;QACC,WAAU;QACV,SAAS,IAAM,CAAA,GAAA,8IAAA,CAAA,UAAO,AAAD,EAAE;gBAAC,aAAa;YAA4B;kBAClE;;;;;;AAIL","debugId":null}}]
-}

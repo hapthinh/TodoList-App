@@ -1,8 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 6, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 96, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"","debugId":null}},
-    {"offset": {"line": 109, "column": 0}, "map": {"version":3,"sources":["file:///E:/frontendApp/frontendApp/src/app/page.tsx"],"sourcesContent":["import React from \"react\";\r\nimport { getServerSession } from \"next-auth\";\r\nimport Link from \"next/link\";\r\n\r\nimport TodoPage from \"./todolist/page\";\r\n\r\nexport default async function HomePage() {\r\n  const authSession = await getServerSession();\r\n  return (\r\n    <main>\r\n      {authSession?.user && <TodoPage />}\r\n      {!authSession?.user && (\r\n        <div className=\"flex justify-center text-3xl\">\r\n          <p>You are not logged in ===</p>\r\n          <Link\r\n            href=\"/auth/signin\"\r\n            className=\"text-blue-500 hover:text-blue-800\"\r\n          >\r\n            {\" \"}\r\n            Login\r\n          </Link>\r\n        </div>\r\n      )}\r\n    </main>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;AACA;AACA;AAEA;;;;;AAEe,eAAe;IAC5B,MAAM,cAAc,MAAM,CAAA,GAAA,qIAAA,CAAA,mBAAgB,AAAD;IACzC,qBACE,8OAAC;;YACE,aAAa,sBAAQ,8OAAC,+HAAA,CAAA,UAAQ;;;;;YAC9B,CAAC,aAAa,sBACb,8OAAC;gBAAI,WAAU;;kCACb,8OAAC;kCAAE;;;;;;kCACH,8OAAC,4JAAA,CAAA,UAAI;wBACH,MAAK;wBACL,WAAU;;4BAET;4BAAI;;;;;;;;;;;;;;;;;;;AAOjB","debugId":null}}]
-}

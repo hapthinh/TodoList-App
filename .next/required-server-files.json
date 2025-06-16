@@ -104,7 +104,7 @@
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "E:\\frontendApp\\frontendApp",
+    "outputFileTracingRoot": "C:\\Users\\Toby\\TodoList\\TodoList-App",
     "experimental": {
       "nodeMiddleware": false,
       "cacheLife": {
@@ -162,7 +162,7 @@
       "middlewarePrefetch": "flexible",
       "optimisticClientCache": true,
       "manualClientBasePath": false,
-      "cpus": 11,
+      "cpus": 15,
       "memoryBasedWorkersCount": false,
       "imgOptConcurrency": null,
       "imgOptTimeoutInSeconds": 7,
@@ -287,10 +287,10 @@
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
     "turbopack": {
-      "root": "E:\\frontendApp\\frontendApp"
+      "root": "C:\\Users\\Toby\\TodoList\\TodoList-App"
     }
   },
-  "appDir": "E:\\frontendApp\\frontendApp",
+  "appDir": "C:\\Users\\Toby\\TodoList\\TodoList-App",
   "relativeAppDir": "",
   "files": [
     ".next\\routes-manifest.json",

@@ -4,13 +4,12 @@ import { ilike, eq, and, asc, desc, inArray } from "drizzle-orm";
 import { todos } from "app/db/schema";
 import { db } from "app/db";
 import { statistic } from "app/services/todoServices";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
-
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "auth";
 
 export async function GET(request: Request) {
   const authSession = await getServerSession(authOptions)
-  const userID = authSession.user.id
+  const userID = (authSession?.user as { id?: number | string })?.id
 
   const { searchParams } = new URL(request.url);
 
@@ -69,7 +68,7 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const authSession = await getServerSession(authOptions)
-  const userID = authSession.user.id
+  const userID = (authSession?.user as { id?: number | string })?.id
 
   const body = await request.json();
 

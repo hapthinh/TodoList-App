@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/Toby/TodoList/TodoList-App/src/app/page.tsx"],"sourcesContent":["\"use client\";\r\n\r\nimport React from \"react\";\r\nimport { useSession } from \"next-auth/react\";\r\n\r\nimport SignIn from \"./auth/signin/page\";\r\nimport TodoPage from \"./todolist/page\";\r\nimport { useRouter } from \"next/navigation\";\r\n\r\nexport default async function HomePage() {\r\n  \r\n}\r\n"],"names":[],"mappings":";;;AAAA;AASe,eAAe,YAE9B","debugId":null}}]
-}

@@ -67,21 +67,19 @@ export async function updateTodoStatus({
   completed?: boolean;
   todo?: string;
 }) {
-  const body: any = {};
-
+  const body: { completed?: boolean; todo?: string } = {};
   if (typeof completed !== "undefined") body.completed = completed;
   if (typeof todo !== "undefined") body.todo = todo;
-
-  const res = await fetch(`${API}/${id}`, {
+  const res = fetch(`${API}/${id}`, {
     method: "PATCH",
     headers: { "Content-type": "application/json" },
     body: JSON.stringify(body),
   });
-
-  return res.json();
+  const data = (await res).json();
+  return data;
 }
 
-export async function deleteMultiTodo({ idArray }: { idArray: any[] }) {
+export async function deleteMultiTodo({ idArray }: { idArray: number[] }) {
   const res = await fetch(`${API}`, {
     method: "DELETE",
     headers: { "Content-type": "application/json" },

@@ -19,21 +19,26 @@ export async function PATCH(request: Request) {
   const url = new URL(request.url);
   const id = Number(url.pathname.split("/").pop());
   const body = await request.json();
-  const updateData: any = {};
+  // let updateData: UpdateData;
 
   // if have todo or completed
-  if (typeof body.todo !== "undefined") updateData.todo = body.todo;
-  if (typeof body.completed !== "undefined")
-    updateData.completed = body.completed;
+  if (typeof body.todo !== "undefined"){
+    const result = await db
+      .update(todos)
+      .set({todo: body.todo})
+      .where(eq(todos.id, id))
+      .returning();
+        return NextResponse.json(result[0]);
 
-  // Update todo set ... where todo.id = id
+  } else {
   const result = await db
-    .update(todos)
-    .set(updateData)
-    .where(eq(todos.id, id))
-    .returning();
+      .update(todos)
+      .set({completed: body.completed})
+      .where(eq(todos.id, id))
+      .returning();
+        return NextResponse.json(result[0]);
 
-  return NextResponse.json(result[0]);
+  }
 }
 
 export async function GET(request: Request) {

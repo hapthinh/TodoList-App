@@ -1,5 +1,3 @@
-import SelectAutoWidth from "./selectBox";
-
 export default function FilterTodo({
   searchInput,
   setSearchInput,
@@ -8,16 +6,21 @@ export default function FilterTodo({
   return (
     <>
       <div className="flex items-center gap-2 h-18">
-        <input
-          className="text-black rounded-lg border border-gray-500 focus:ring-2 focus:ring-indigo-400 px-4 py-2 w-73 outline-none transition"
-          type="text"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") handleSearch(searchInput);
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleSearch(e,searchInput)
           }}
-          placeholder="Enter keyword"
-        />
+        >
+          <label className="ml-3 font-sans">Search</label>
+            <input
+              className="text-black rounded-lg border border-gray-500 focus:ring-2 focus:ring-indigo-400 px-4 py-2 w-76 outline-none transition ml-3 mb-6.5 h-12"
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Enter Keyword"
+            />
+        </form>
       </div>
     </>
   );
