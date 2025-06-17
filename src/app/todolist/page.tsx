@@ -29,6 +29,7 @@ import { DeleteSelectedBtn } from "app/components/btn/deleteSelectedBtn";
 import { TodoResponse } from "app/types/interface";
 import { signOutBtn as SignOutBtn } from "app/components/btn/signOutBtn";
 import { ButtonAppBar } from "app/components/appBar";
+import DrawerContent from "app/components/drawer/drawerContent";
 
 export default function TodoPage() {
   const { data: session, status } = useSession();
@@ -63,6 +64,7 @@ export default function TodoPage() {
   const [editTodo, setEditTodo] = useState("");
   const [checked, setChecked] = useState<boolean[]>([]);
   const [selectedId, setSelectedId] = useState<number[]>([]);
+  const [open, setOpen] = useState(false);
 
   // handle selected Todo
   const handleOnChange = (idx) => {
@@ -173,10 +175,15 @@ export default function TodoPage() {
     return checked.filter(Boolean).length;
   }
 
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
+
   // Rendering
   return (
     <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen flex">
-      <ButtonAppBar />
+      <ButtonAppBar handleMenu={toggleOpen} open={open} />
+      <DrawerContent open={open} />
       <div className="mt-13">
         {/* Header */}
         <div className="basis-128 text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
