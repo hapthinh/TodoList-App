@@ -111,6 +111,7 @@ export default function TodoCard({
                   completed: !todo.completed,
                 });
               }}
+              color="secondary"
             >
               <DoneIcon />
               Mark Done

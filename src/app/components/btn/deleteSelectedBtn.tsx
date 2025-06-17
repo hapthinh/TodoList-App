@@ -9,7 +9,7 @@ export function DeleteSelectedBtn({selectedId, onCount, onDelete}: DeleteBtnProp
         <Badge>
             <Button
               variant="outlined"
-              color="primary"
+              color="secondary"
               startIcon={
                 <Badge badgeContent={onCount} color="error">
                   <DeleteIcon />

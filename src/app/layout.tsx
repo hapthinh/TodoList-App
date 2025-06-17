@@ -7,6 +7,7 @@ import { SuspenseWrapper } from "./utils/SuspenseWrapper";
 import QueryClientWrapper from "./utils/QueryClientWrapper";
 import Providers from "./provider/provider";
 import "./globals.css";
+import { MuiThemeProvider } from "./utils/ThemeWrapper";
 
 export const metadata: Metadata = {
   title: 'Todo Dashboard',
@@ -23,7 +24,11 @@ export default async function RootLayout({
       <body>
         <Providers>
           <QueryClientWrapper>
-            <SuspenseWrapper>{children}</SuspenseWrapper>
+            <SuspenseWrapper>
+              <MuiThemeProvider>
+              {children}
+              </MuiThemeProvider>
+              </SuspenseWrapper>  
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientWrapper>
         </Providers>

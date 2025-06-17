@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  keepPreviousData,
-  useQuery,
-} from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
@@ -12,9 +9,7 @@ import { useSession } from "next-auth/react";
 // icons & layout
 import Grid from "@mui/material/Grid";
 
-import {
-  getTodos,
-} from "../services/api";
+import { getTodos } from "../services/api";
 import { Todo } from "app/types/type";
 import AddTodo from "app/components/input/addTodo";
 import FilterTodo from "app/components/input/filterTodo";
@@ -23,19 +18,24 @@ import SortOrder from "app/components/selectBox/sortOrder";
 import SelectedPageSize from "app/components/selectBox/selectedPageSize";
 import SelectStatus from "app/components/selectBox/selectBox";
 import MuiPagination from "app/components/pagination";
-import { usePostTodoMutation, useDeleteSelectedTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from "app/lib/queries/mutations";
+import {
+  usePostTodoMutation,
+  useDeleteSelectedTodoMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
+} from "app/lib/queries/mutations";
 import TodoCard from "../components/todoCard";
 import { DeleteSelectedBtn } from "app/components/btn/deleteSelectedBtn";
 import { TodoResponse } from "app/types/interface";
 import { signOutBtn as SignOutBtn } from "app/components/btn/signOutBtn";
-
+import { ButtonAppBar } from "app/components/appBar";
 
 export default function TodoPage() {
-  const { data : session, status } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  console.log(session)
+  console.log(session);
   // check status session
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -130,14 +130,14 @@ export default function TodoPage() {
 
   // querykey
   const queryKey = [
-      "todos",
-      inputSearch,
-      selectStatus,
-      sortOrder,
-      sortField,
-      currentPage,
-      limit,
-    ]
+    "todos",
+    inputSearch,
+    selectStatus,
+    sortOrder,
+    sortField,
+    currentPage,
+    limit,
+  ];
 
   // Get Data Todo
   const todos: Todo[] = Array.isArray(data?.todos)
@@ -148,10 +148,19 @@ export default function TodoPage() {
     : [];
 
   // Mutations
-  const postTodoMutation = usePostTodoMutation(queryKey)
-  const deleteTodoMutation = useDeleteTodoMutation(queryKey)
-  const updateTodoMutation = useUpdateTodoMutation(queryKey, setEditId, setEditTodo)
-  const deleteMultiTodoMutation = useDeleteSelectedTodoMutation(queryKey, setChecked, setSelectedId,todos.length)
+  const postTodoMutation = usePostTodoMutation(queryKey);
+  const deleteTodoMutation = useDeleteTodoMutation(queryKey);
+  const updateTodoMutation = useUpdateTodoMutation(
+    queryKey,
+    setEditId,
+    setEditTodo
+  );
+  const deleteMultiTodoMutation = useDeleteSelectedTodoMutation(
+    queryKey,
+    setChecked,
+    setSelectedId,
+    todos.length
+  );
 
   // if todos.length change =>
   useEffect(() => {
@@ -166,120 +175,124 @@ export default function TodoPage() {
 
   // Rendering
   return (
-    <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen">
-      <div className="flex justify-end">
-        <SignOutBtn />
-      </div>
-      {/* Header */}
-      <div className="basis-128 text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
-        <Image src="/todo.svg" alt="todo" width={40} height={40} />
-        <p className="ml-2">YourTODO</p>
-      </div>
-
-      {/* Input và filter */}
-      <div className="flex justify-items-center-safe ml-100 gap-4 mb-6 p-4 shadow w-280 text-black h-25 rounded-xl bg-[#eff1a0]">
-        <div className="w-100 bg-[#FEFFDF] flex-1/3 rounded-xl">
-          {/* Add todo */}
-          <AddTodo
-            input={input}
-            setInput={setInput}
-            onAdd={() => {
-              if (input.trim()) {
-                postTodoMutation.mutate({
-                  todo: input,
-                });
-                setInput("");
-              }
-            }}
-          />
+    <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen flex">
+      <ButtonAppBar />
+      <div className="mt-13">
+        {/* Header */}
+        <div className="basis-128 text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
+          <Image src="/todo.svg" alt="todo" width={40} height={40} />
+          <p className="ml-2">YourTODO</p>
         </div>
-        <div className="flex-1/3 bg-[#FEFFDF] rounded-xl flex justify-center">
-          {/* Search keyword */}
-          <FilterTodo
-            searchInput={searchInput}
-            setSearchInput={setSearchInput}
-            handleSearch={handleSearch}
-          />
-        </div>
-        <div className="flex flex-1/3 justify-center bg-[#FEFFDF] rounded-xl">
-          <div className="flex flex-row mt-0.5">
-          {/* Filter */}
-          <SelectStatus
-            selectStatus={selectStatus}
-            searchParams={searchParams}
-            router={router}
-          />
-          <SortOrder
-            selectedOrder={sortOrder}
-            searchParams={searchParams}
-            router={router}
-          />
-          <SelectedPageSize
-            SelectedPageSize={pageSize}
-            onChangePageSize={handleChangePageSize}
-          />
+        {/* Input và filter */}
+        <div className="flex justify-items-center-safe ml-100 gap-4 mb-6 p-4 shadow w-280 text-black h-25 rounded-xl bg-[#eff1a0]">
+          <div className="w-100 bg-[#FEFFDF] flex-1/3 rounded-xl">
+            {/* Add todo */}
+            <AddTodo
+              input={input}
+              setInput={setInput}
+              onAdd={() => {
+                if (input.trim()) {
+                  postTodoMutation.mutate({
+                    todo: input,
+                  });
+                  setInput("");
+                }
+              }}
+            />
+          </div>
+          <div className="flex-1/3 bg-[#FEFFDF] rounded-xl flex justify-center">
+            {/* Search keyword */}
+            <FilterTodo
+              searchInput={searchInput}
+              setSearchInput={setSearchInput}
+              handleSearch={handleSearch}
+            />
+          </div>
+          <div className="flex flex-1/3 justify-center bg-[#FEFFDF] rounded-xl">
+            <div className="flex flex-row mt-0.5">
+              {/* Filter */}
+              <SelectStatus
+                selectStatus={selectStatus}
+                searchParams={searchParams}
+                router={router}
+              />
+              <SortOrder
+                selectedOrder={sortOrder}
+                searchParams={searchParams}
+                router={router}
+              />
+              <SelectedPageSize
+                SelectedPageSize={pageSize}
+                onChangePageSize={handleChangePageSize}
+              />
+            </div>
           </div>
         </div>
-      </div>
-      {/* Statistic */}
-      <div>
+        {/* Statistic */}
+        <div>
+          {data && (
+            <Statistic
+              completedCount={data.completedCount || 0}
+              unCompletedCount={data.unCompletedCount || 0}
+            />
+          )}
+        </div>
+        <div className="flex justify-end">
+          {/* Delete Selected Todo Btn */}
+          <div>
+            <DeleteSelectedBtn
+              selectedId={selectedId}
+              onCount={Count()}
+              onDelete={deleteMultiTodoMutation.mutate}
+            />
+          </div>
+        </div>
+        {/* Rendering */}
+        {isLoading ? (
+          <div className="text-center">Loading...</div>
+        ) : todos.length === 0 ? (
+          <div className="text-center">No result</div>
+        ) : (
+          <div className="ml-20 mt-10">
+            {/* Render grid card */}
+            <Grid
+              container
+              spacing={4}
+              sx={{
+                justifyContent: "space-between",
+              }}
+              columns={{ xs: 4, sm: 8, md: 12 }}
+            >
+              {todos.map((todo, idx) => (
+                <TodoCard
+                  key={todo.id}
+                  todo={todo}
+                  idx={idx}
+                  checked={!!checked[idx]}
+                  editId={editId}
+                  editTodo={editTodo}
+                  setEditId={setEditId}
+                  setEditTodo={setEditTodo}
+                  onCheck={handleOnChange}
+                  onUpdate={updateTodoMutation.mutate}
+                  onDelete={deleteTodoMutation.mutate}
+                />
+              ))}
+            </Grid>
+          </div>
+        )}
+
+        {/* Pagination */}
         {data && (
-          <Statistic
-            completedCount={data.completedCount || 0}
-            unCompletedCount={data.unCompletedCount || 0}
+          <MuiPagination
+            currentPage={currentPage}
+            total={data.total}
+            pageSize={limit}
+            router={router}
+            searchParams={searchParams}
           />
         )}
       </div>
-      <div className="flex justify-end">
-        {/* Delete Selected Todo Btn */}
-        <div>
-          <DeleteSelectedBtn 
-            selectedId={selectedId}
-            onCount={Count()}
-            onDelete={deleteMultiTodoMutation.mutate}
-          />
-        </div>
-      </div>
-      {/* Rendering */}
-      {isLoading ? (
-        <div className="text-center">Loading...</div>
-      ) : todos.length === 0 ? (
-        <div className="text-center">No result</div>
-      ) : (
-        <div className="ml-20 mt-10">
-          {/* Render grid card */}
-          <Grid container spacing={4} sx={{ 
-            justifyContent: 'space-between',
-          }} columns={{ xs: 4, sm: 8, md: 12 }}>
-            {todos.map((todo, idx) => (
-              <TodoCard 
-                key={todo.id}
-                todo={todo}
-                idx={idx}
-                checked={!!checked[idx]}
-                editId={editId}
-                editTodo={editTodo}
-                setEditId={setEditId}
-                setEditTodo={setEditTodo}
-                onCheck={handleOnChange}
-                onUpdate={updateTodoMutation.mutate}
-                onDelete={deleteTodoMutation.mutate}
-              />
-            ))}
-          </Grid>
-        </div>
-      )}
-
-      {/* Pagination */}
-      {data && (
-        <MuiPagination
-          currentPage={currentPage}
-          total={data.total}
-          pageSize={limit}
-          router={router}
-          searchParams={searchParams}
-        />
-      )}
     </div>
   );
 }
