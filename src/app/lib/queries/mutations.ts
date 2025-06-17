@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postTodo, deteleTodo, updateTodoStatus, deleteMultiTodo } from "app/services/api";
 
 
-export function usepostTodoMutation(queryKey: any[]){
+export function usePostTodoMutation(queryKey: Array<string|number>){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: postTodo,
@@ -12,7 +12,7 @@ export function usepostTodoMutation(queryKey: any[]){
     })
 } 
 
-export function useDeleteTodoMutation(queryKey: any[]){
+export function useDeleteTodoMutation(queryKey: Array<string|number>){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: deteleTodo,
@@ -22,7 +22,7 @@ export function useDeleteTodoMutation(queryKey: any[]){
     })
 }
 
-export function useUpdateTodoMutation(queryKey: any[], setEditId: (id: null) => void, setEditTodo: (todo: string) => void){
+export function useUpdateTodoMutation(queryKey: Array<string|number>, setEditId: (id: null) => void, setEditTodo: (todo: string) => void){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: updateTodoStatus,
@@ -34,7 +34,7 @@ export function useUpdateTodoMutation(queryKey: any[], setEditId: (id: null) => 
     })
 }
 
-export function useDeleteSelectedTodoMutation(queryKey: any[],  setChecked: (arr: boolean[]) => void, setSelectedId: (arr: number[]) => void, todosLength: number){
+export function useDeleteSelectedTodoMutation(queryKey: Array<string|number>,  setChecked: (arr: boolean[]) => void, setSelectedId: (arr: number[]) => void, todosLength: number){
     const queryClient = useQueryClient()
     return useMutation({
         mutationFn: deleteMultiTodo,

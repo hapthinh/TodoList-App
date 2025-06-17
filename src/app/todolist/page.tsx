@@ -7,17 +7,13 @@ import {
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 // icons & layout
 import Grid from "@mui/material/Grid";
 
 import {
-  postTodo,
-  deteleTodo,
-  updateTodoStatus,
   getTodos,
-  deleteMultiTodo,
 } from "../services/api";
 import { Todo } from "app/types/type";
 import AddTodo from "app/components/input/addTodo";
@@ -27,7 +23,7 @@ import SortOrder from "app/components/selectBox/sortOrder";
 import SelectedPageSize from "app/components/selectBox/selectedPageSize";
 import SelectStatus from "app/components/selectBox/selectBox";
 import MuiPagination from "app/components/pagination";
-import { usepostTodoMutation, useDeleteSelectedTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from "app/lib/queries/mutations";
+import { usePostTodoMutation, useDeleteSelectedTodoMutation, useDeleteTodoMutation, useUpdateTodoMutation } from "app/lib/queries/mutations";
 import TodoCard from "../components/todoCard";
 import { DeleteSelectedBtn } from "app/components/btn/deleteSelectedBtn";
 import { TodoResponse } from "app/types/interface";
@@ -152,7 +148,7 @@ export default function TodoPage() {
     : [];
 
   // Mutations
-  const postTodoMutation = usepostTodoMutation(queryKey)
+  const postTodoMutation = usePostTodoMutation(queryKey)
   const deleteTodoMutation = useDeleteTodoMutation(queryKey)
   const updateTodoMutation = useUpdateTodoMutation(queryKey, setEditId, setEditTodo)
   const deleteMultiTodoMutation = useDeleteSelectedTodoMutation(queryKey, setChecked, setSelectedId,todos.length)

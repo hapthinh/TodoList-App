@@ -40,7 +40,7 @@ export default function TodoCard({
               <Checkbox
                 size="small"
                 color="success"
-                checked={!!checked[idx]}
+                checked={!!checked}
                 onChange={() => onCheck(idx)}
               ></Checkbox>
             </div>

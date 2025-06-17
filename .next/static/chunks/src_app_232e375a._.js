@@ -619,8 +619,8 @@ var { g: global, __dirname, k: __turbopack_refresh__, m: module } = __turbopack_
 __turbopack_context__.s({
     "useDeleteSelectedTodoMutation": (()=>useDeleteSelectedTodoMutation),
     "useDeleteTodoMutation": (()=>useDeleteTodoMutation),
-    "useUpdateTodoMutation": (()=>useUpdateTodoMutation),
-    "usepostTodoMutation": (()=>usepostTodoMutation)
+    "usePostTodoMutation": (()=>usePostTodoMutation),
+    "useUpdateTodoMutation": (()=>useUpdateTodoMutation)
 });
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/react-query/build/modern/useMutation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js [app-client] (ecmascript)");
@@ -628,21 +628,21 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$services$2f$ap
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature(), _s3 = __turbopack_context__.k.signature();
 ;
 ;
-function usepostTodoMutation(queryKey) {
+function usePostTodoMutation(queryKey) {
     _s();
     const queryClient = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQueryClient"])();
     return (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"])({
         mutationFn: __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$services$2f$api$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["postTodo"],
         onSuccess: {
-            "usepostTodoMutation.useMutation": ()=>{
+            "usePostTodoMutation.useMutation": ()=>{
                 queryClient.invalidateQueries({
                     queryKey
                 });
             }
-        }["usepostTodoMutation.useMutation"]
+        }["usePostTodoMutation.useMutation"]
     });
 }
-_s(usepostTodoMutation, "YK0wzM21ECnncaq5SECwU+/SVdQ=", false, function() {
+_s(usePostTodoMutation, "YK0wzM21ECnncaq5SECwU+/SVdQ=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$QueryClientProvider$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQueryClient"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useMutation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useMutation"]
@@ -769,7 +769,7 @@ function TodoCard({ todo, idx, checked, editId, editTodo, setEditId, setEditTodo
                                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Checkbox$2f$Checkbox$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
                                         size: "small",
                                         color: "success",
-                                        checked: !!checked[idx],
+                                        checked: !!checked,
                                         onChange: ()=>onCheck(idx)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/components/todoCard.tsx",
@@ -1226,7 +1226,7 @@ function TodoPage() {
             createdDate: todo.createdDate
         })) : [];
     // Mutations
-    const postTodoMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usepostTodoMutation"])(queryKey);
+    const postTodoMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePostTodoMutation"])(queryKey);
     const deleteTodoMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteTodoMutation"])(queryKey);
     const updateTodoMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUpdateTodoMutation"])(queryKey, setEditId, setEditTodo);
     const deleteMultiTodoMutation = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteSelectedTodoMutation"])(queryKey, setChecked, setSelectedId, todos.length);
@@ -1251,12 +1251,12 @@ function TodoPage() {
                 className: "flex justify-end",
                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$btn$2f$signOutBtn$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["signOutBtn"], {}, void 0, false, {
                     fileName: "[project]/src/app/todolist/page.tsx",
-                    lineNumber: 175,
+                    lineNumber: 171,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 174,
+                lineNumber: 170,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1269,7 +1269,7 @@ function TodoPage() {
                         height: 40
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 179,
+                        lineNumber: 175,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -1277,13 +1277,13 @@ function TodoPage() {
                         children: "YourTODO"
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 180,
+                        lineNumber: 176,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 178,
+                lineNumber: 174,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1304,12 +1304,12 @@ function TodoPage() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/app/todolist/page.tsx",
-                            lineNumber: 187,
+                            lineNumber: 183,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 185,
+                        lineNumber: 181,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1320,12 +1320,12 @@ function TodoPage() {
                             handleSearch: handleSearch
                         }, void 0, false, {
                             fileName: "[project]/src/app/todolist/page.tsx",
-                            lineNumber: 202,
+                            lineNumber: 198,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 200,
+                        lineNumber: 196,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1339,7 +1339,7 @@ function TodoPage() {
                                     router: router
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todolist/page.tsx",
-                                    lineNumber: 211,
+                                    lineNumber: 207,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$selectBox$2f$sortOrder$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1348,7 +1348,7 @@ function TodoPage() {
                                     router: router
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todolist/page.tsx",
-                                    lineNumber: 216,
+                                    lineNumber: 212,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$selectBox$2f$selectedPageSize$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1356,24 +1356,24 @@ function TodoPage() {
                                     onChangePageSize: handleChangePageSize
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/todolist/page.tsx",
-                                    lineNumber: 221,
+                                    lineNumber: 217,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/todolist/page.tsx",
-                            lineNumber: 209,
+                            lineNumber: 205,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 208,
+                        lineNumber: 204,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 184,
+                lineNumber: 180,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1382,12 +1382,12 @@ function TodoPage() {
                     unCompletedCount: data.unCompletedCount || 0
                 }, void 0, false, {
                     fileName: "[project]/src/app/todolist/page.tsx",
-                    lineNumber: 231,
+                    lineNumber: 227,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 229,
+                lineNumber: 225,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1399,17 +1399,17 @@ function TodoPage() {
                         onDelete: deleteMultiTodoMutation.mutate
                     }, void 0, false, {
                         fileName: "[project]/src/app/todolist/page.tsx",
-                        lineNumber: 240,
+                        lineNumber: 236,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/todolist/page.tsx",
-                    lineNumber: 239,
+                    lineNumber: 235,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 237,
+                lineNumber: 233,
                 columnNumber: 7
             }, this),
             isLoading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -1417,14 +1417,14 @@ function TodoPage() {
                 children: "Loading..."
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 249,
+                lineNumber: 245,
                 columnNumber: 9
             }, this) : todos.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "text-center",
                 children: "No result"
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 251,
+                lineNumber: 247,
                 columnNumber: 9
             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "ml-20 mt-10",
@@ -1452,17 +1452,17 @@ function TodoPage() {
                             onDelete: deleteTodoMutation.mutate
                         }, todo.id, false, {
                             fileName: "[project]/src/app/todolist/page.tsx",
-                            lineNumber: 259,
+                            lineNumber: 255,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/app/todolist/page.tsx",
-                    lineNumber: 255,
+                    lineNumber: 251,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 253,
+                lineNumber: 249,
                 columnNumber: 9
             }, this),
             data && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$components$2f$pagination$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -1473,22 +1473,23 @@ function TodoPage() {
                 searchParams: searchParams
             }, void 0, false, {
                 fileName: "[project]/src/app/todolist/page.tsx",
-                lineNumber: 279,
+                lineNumber: 275,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/todolist/page.tsx",
-        lineNumber: 173,
+        lineNumber: 169,
         columnNumber: 5
     }, this);
 }
-_s(TodoPage, "N13bGCc78f0kq6/K6fY0M4VbCEE=", false, function() {
+_s(TodoPage, "YT9l8AVz0Axx8yAu5UAnTXQ9nus=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$auth$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSession"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useRouter"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useSearchParams"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$tanstack$2f$react$2d$query$2f$build$2f$modern$2f$useQuery$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useQuery"],
+        __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["usePostTodoMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteTodoMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useUpdateTodoMutation"],
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$app$2f$lib$2f$queries$2f$mutations$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useDeleteSelectedTodoMutation"]

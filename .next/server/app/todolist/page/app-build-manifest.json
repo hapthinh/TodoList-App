@@ -1,6 +1,6 @@
 {
   "pages": {
-    "/page": [
+    "/todolist/page": [
       "static/chunks/node_modules_next_dist_1a6ee436._.js",
       "static/chunks/src_app_favicon_ico_mjs_65a2b8d0._.js",
       "static/chunks/node_modules_@tanstack_query-devtools_build_25e221e4._.js",
@@ -8,12 +8,12 @@
       "static/chunks/src_app_60cdaf35._.js",
       "static/chunks/src_app_globals_b805903d.css",
       "static/chunks/src_app_layout_tsx_ea9287a8._.js",
-      "static/chunks/node_modules_next_75e52325._.js",
+      "static/chunks/node_modules_next_67a9f2e0._.js",
       "static/chunks/node_modules_@mui_material_esm_7105590b._.js",
       "static/chunks/node_modules_@deemlol_next-icons_build_index_cbbd84f9.js",
       "static/chunks/node_modules_f3be65b3._.js",
       "static/chunks/src_app_232e375a._.js",
-      "static/chunks/src_app_page_tsx_de438891._.js",
+      "static/chunks/src_app_todolist_page_tsx_de438891._.js",
       "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_c20f642f._.js",
       "static/chunks/node_modules_next_dist_compiled_2ce9398a._.js",
       "static/chunks/node_modules_next_dist_client_8f19e6fb._.js",
