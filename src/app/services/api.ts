@@ -96,3 +96,19 @@ export async function getTodobyId(id: number) {
   console.log(res.json());
   return res.json();
 }
+
+const API1 = "http://localhost:3000"
+
+export async function getAllBlog(){
+  const res = await fetch(`${API1}/blog/`,{
+    method: "GET"
+  })
+  return res.json()
+}
+
+export async function getBlogById(id : number) {
+  const res = await fetch(`${API1}/blog/${id}`,{
+    method:"GET"
+  })
+  return res.json()
+}

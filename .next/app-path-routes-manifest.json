@@ -1,12 +1,14 @@
 {
   "/_not-found/page": "/_not-found",
+  "/api/blog/[id]/route": "/api/blog/[id]",
   "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
-  "/api/todolist/route": "/api/todolist",
   "/api/todolist/[id]/route": "/api/todolist/[id]",
+  "/api/todolist/route": "/api/todolist",
   "/favicon.ico/route": "/favicon.ico",
+  "/auth/signin/page": "/auth/signin",
+  "/auth/signout/page": "/auth/signout",
   "/page": "/",
   "/todolist/[id]/page": "/todolist/[id]",
-  "/auth/signin/page": "/auth/signin",
   "/todolist/page": "/todolist",
-  "/auth/signout/page": "/auth/signout"
+  "/blog/[id]/page": "/blog/[id]"
 }

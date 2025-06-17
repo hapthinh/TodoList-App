@@ -7,8 +7,6 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
-import { signOutBtn as SignOutBtn } from "./btn/signOutBtn";
-
 interface Props extends AppBarProps {
   open?: boolean;
   handleMenu: () => void;
@@ -32,6 +30,7 @@ export const ButtonAppBar = (props: Props) => {
             DashBoard
           </Typography>
         </Toolbar>
+        
       </AppBar>
     </Box>
   );

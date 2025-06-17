@@ -29,6 +29,12 @@ export const users = pgTable("user", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
+export const blog = pgTable("blog", {
+	id: integer().primaryKey().notNull(),
+	title: text(),
+	content: text(),
+});
+
 // todo 1-1 or n-1 user
 export const todoRelations = relations(todos, ({ one }) => ({
   users: one(users, { fields: [todos.userId], references: [users.id] }),

@@ -27,7 +27,6 @@ import {
 import TodoCard from "../components/todoCard";
 import { DeleteSelectedBtn } from "app/components/btn/deleteSelectedBtn";
 import { TodoResponse } from "app/types/interface";
-import { signOutBtn as SignOutBtn } from "app/components/btn/signOutBtn";
 import { ButtonAppBar } from "app/components/appBar";
 import DrawerContent from "app/components/drawer/drawerContent";
 
@@ -197,7 +196,8 @@ export default function TodoPage() {
             <AddTodo
               input={input}
               setInput={setInput}
-              onAdd={() => {
+              onAdd={(e) => {
+                e.preventDefault()
                 if (input.trim()) {
                   postTodoMutation.mutate({
                     todo: input,

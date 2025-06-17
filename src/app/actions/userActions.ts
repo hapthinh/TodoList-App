@@ -13,3 +13,5 @@ export const getUser = async (id: number) => {
   const data = await db.select().from(users).where(eq(users.id, id));
   return data;
 };
+
+
