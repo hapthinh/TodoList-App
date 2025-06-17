@@ -1,3 +1,4 @@
+'use client'
 import Box from "@mui/material/Box";
 import MenuItem from "./menuItem";
 import { Drawer } from "./drawerUtils";
@@ -12,7 +13,7 @@ export default function DrawerContent(props: Props) {
   return (
     <Box display={"flex"} position={"relative"} sx={{mt: 8}} color="Background">
       <CssBaseline />
-      <Drawer variant="permanent" open={open} color="primary">
+      <Drawer variant="permanent" open={open} color="primary" anchor="left">
         <MenuItem open />
       </Drawer>
     </Box>

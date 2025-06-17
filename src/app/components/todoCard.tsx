@@ -26,10 +26,11 @@ export default function TodoCard({
 }: TodoCardProps) {
   return (
     <>
-      <Grid size={2.5} key={todo.id} justifyContent={"space-between"}>
+      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={todo.id} container>
         <Card
           sx={{
-            width: 350,
+            width: "100%",
+            maxWidth: 350,
             backgroundColor: "#FEFFDF",
             border: 1,
             boxShadow: 10,
@@ -56,6 +57,7 @@ export default function TodoCard({
             <Typography align="center" variant="h5">
               {editId === todo.id ? (
                 <input
+                  className="focus:ring-2 focus:ring-indigo-500 border"
                   value={editTodo}
                   onChange={(e) => setEditTodo(e.target.value)}
                   type="text"

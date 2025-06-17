@@ -30,7 +30,6 @@ export const ButtonAppBar = (props: Props) => {
             DashBoard
           </Typography>
         </Toolbar>
-        
       </AppBar>
     </Box>
   );

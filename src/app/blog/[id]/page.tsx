@@ -33,7 +33,6 @@ export default async function Page({
             <h1>{post.id} =======</h1>
             <h1>{post.title}</h1>
             <p>{post.content}</p>
-            <p>Last updated: {new Date().toISOString()}</p>
         </main>
     )    
 }

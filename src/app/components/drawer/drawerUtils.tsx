@@ -3,8 +3,8 @@ import MuiDrawer from '@mui/material/Drawer';
 
 const drawerWidth = 230;
 
-const floatingDrawerKeyProps:CSSObject = { position: 'fixed', top: '7dvh', backgroundColor:'rgb(255 255 255 / 95%)' };
-const displacingDrawerKeyProps:CSSObject = { position: 'relative', top: 0, backgroundColor:'#FEFFDF' };
+const floatingDrawerKeyProps:CSSObject = { position: 'fixed', top: '7dvh', backgroundColor:'rgb(255 255 255 / 95%)', left:0};
+const displacingDrawerKeyProps:CSSObject = { position: 'fixed', top: 0, backgroundColor:'#FEFFDF' , left: 0};
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,

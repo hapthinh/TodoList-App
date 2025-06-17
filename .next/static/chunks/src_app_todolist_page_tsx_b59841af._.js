@@ -3,7 +3,7 @@
     chunks: [
   "static/chunks/src_app_a3d680ba._.js",
   "static/chunks/node_modules_next_67a9f2e0._.js",
-  "static/chunks/node_modules_@mui_material_esm_026a00e5._.js",
+  "static/chunks/node_modules_@mui_material_esm_99ff9f02._.js",
   "static/chunks/node_modules_@deemlol_next-icons_build_index_cbbd84f9.js",
   "static/chunks/node_modules_9247cc78._.js"
 ],

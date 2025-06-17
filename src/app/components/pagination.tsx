@@ -14,7 +14,7 @@ export default function MuiPagination({
     router.push(`?${params.toString()}`);
   };
   return (
-    <div className="flex justify-center my-6">
+    <div className="flex justify-center my-6 mt-10">
       <Pagination
         count={totalPage}
         page={currentPage}

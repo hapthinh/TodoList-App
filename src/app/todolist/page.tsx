@@ -182,10 +182,12 @@ export default function TodoPage() {
   return (
     <div className="text-2x1 text-white bg-gradient-to-r from-amber-100 to-amber-300 h-full grid-cols-subgrid border-2 min-h-screen flex">
       <ButtonAppBar handleMenu={toggleOpen} open={open} />
+      <div className="flex justify-start">
       <DrawerContent open={open} />
-      <div className="mt-13">
+      </div>
+      <div className="mt-13 w-1000">
         {/* Header */}
-        <div className="basis-128 text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
+        <div className="text-center mb-4 text-5xl bg-gradient-to-r from-amber-100 to-amber-300 text-[#050505] font-extrabold flex justify-center mt-5">
           <Image src="/todo.svg" alt="todo" width={40} height={40} />
           <p className="ml-2">YourTODO</p>
         </div>
@@ -260,15 +262,14 @@ export default function TodoPage() {
         ) : todos.length === 0 ? (
           <div className="text-center">No result</div>
         ) : (
-          <div className="ml-20 mt-10">
+          <div className="ml-20 mt-10 max-w-screen min-w-80" >
             {/* Render grid card */}
             <Grid
               container
-              spacing={4}
-              sx={{
-                justifyContent: "space-between",
-              }}
-              columns={{ xs: 4, sm: 8, md: 12 }}
+              spacing={{xs : 4, md: 3}}
+              columns={20}
+              justifyContent={'center'}
+              alignItems={'center'}
             >
               {todos.map((todo, idx) => (
                 <TodoCard
@@ -288,7 +289,7 @@ export default function TodoPage() {
             </Grid>
           </div>
         )}
-
+        <div className="flex justify-center">
         {/* Pagination */}
         {data && (
           <MuiPagination
@@ -299,6 +300,7 @@ export default function TodoPage() {
             searchParams={searchParams}
           />
         )}
+        </div>
       </div>
     </div>
   );

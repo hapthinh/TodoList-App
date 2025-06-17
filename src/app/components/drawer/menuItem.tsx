@@ -1,20 +1,18 @@
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import List from "@mui/material/List";
-import ListItemIcon from "@mui/material/ListItemIcon";
+import {ListItem,ListItemButton, List, ListItemIcon, ListItemText } from '@mui/material'
+
 import HomeIcon from '@mui/icons-material/Home';
 import { signOutBtn as SignOutBtn} from "../btn/signOutBtn";
-import ListItemText from "@mui/material/ListItemText";
 import { signOut } from "next-auth/react";
-import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
 export default function MenuItem({ open }: { open: boolean }) {
-  /*
-  const {data} = useSession()
-  const userName = data.user.name;
-  console.log(userName);
-  */
+  const handleOnClick = (index) => {
+    if(index%2 == 0) {
+      redirect("/todolist")
+    }else{
+      signOut({redirect: true, callbackUrl:"/"})
+    }
+  }
   return (
     <>
     <List>
@@ -31,7 +29,7 @@ export default function MenuItem({ open }: { open: boolean }) {
                     justifyContent: "center",
                   },
             ]}
-            onClick={() => {index%2 == 0 ? redirect("/todolist") : signOut({redirect: true, callbackUrl:"/"})}}
+            onClick={() => handleOnClick(index)}
           >
             <ListItemIcon>
               {index % 2 == 0 ? <HomeIcon /> : <SignOutBtn />}
